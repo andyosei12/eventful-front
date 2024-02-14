@@ -6,6 +6,7 @@ const navigation = [
   { name: 'Features', href: '#' },
   { name: 'Pricing', href: '#' },
   { name: 'Support', href: '#' },
+  { name: 'Events', href: '#' },
 ];
 
 const HomeNav = () => {
