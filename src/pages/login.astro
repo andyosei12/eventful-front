@@ -6,7 +6,7 @@ const errors = { message: '' };
 
 // check to see if user is logged in
 if (Astro.cookies.get('token')) {
-  return Astro.redirect('/');
+  return Astro.redirect('/dashboard');
 }
 
 if (Astro.request.method === 'POST') {
@@ -37,7 +37,7 @@ if (Astro.request.method === 'POST') {
         maxAge: 60 * 60,
         path: '/',
       });
-      return Astro.redirect('/');
+      return Astro.redirect('/dashboard');
     } else {
       errors.message = responseToJson.message;
     }

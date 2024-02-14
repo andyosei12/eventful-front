@@ -1,0 +1,12 @@
+---
+import Card from '../components/Card.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DashboardLayout from '../layouts/DashboardLayout';
+---
+
+<BaseLayout pageTitle="Eventful | Dashboard">
+  <!-- Insert Dashboard layout -->
+  <DashboardLayout client:load>
+    <Card title="hello" body="this is just a test" href="#" />
+  </DashboardLayout>
+</BaseLayout>
