@@ -1,4 +1,5 @@
 ---
+import { CookiesProvider } from 'react-cookie';
 import HomeNav from '../components/HomeNav';
 import BaseLayout from './BaseLayout.astro';
 
@@ -11,7 +12,9 @@ const { title } = Astro.props;
 
 <BaseLayout pageTitle={title}>
   <div class="bg-white">
-    <HomeNav client:load />
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <HomeNav client:load />
+    </CookiesProvider>
     <div class="relative isolate px-6 pt-14 lg:px-8">
       <slot />
     </div>

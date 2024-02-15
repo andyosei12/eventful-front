@@ -1,12 +1,14 @@
 ---
+export const prerender = false;
 import BaseLayout from './BaseLayout.astro';
 import DashboardNav from '../components/DashboardNav';
 import { CookiesProvider } from 'react-cookie';
 
 // check if user is logged in
-if (!Astro.cookies.get('token')) {
-  Astro.redirect('/');
-}
+// if (!Astro.cookies.get('token')) {
+//   console.log('hello');
+//   Astro.redirect('/login');
+// }
 ---
 
 <BaseLayout pageTitle="Eventful | Dashboard">

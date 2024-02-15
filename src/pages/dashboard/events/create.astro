@@ -1,0 +1,12 @@
+---
+export const prerender = false;
+import DashbordLayout from '../../../layouts/DashbordLayout.astro';
+
+if (!Astro.cookies.get('token')) {
+  return Astro.redirect('/creator-registration');
+}
+---
+
+<DashbordLayout>
+  <h1>Create an event</h1>
+</DashbordLayout>
