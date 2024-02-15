@@ -1,0 +1,12 @@
+---
+import DashbordLayout from '../../layouts/DashbordLayout.astro';
+
+// check if user is logged in
+if (!Astro.cookies.get('token')) {
+  return Astro.redirect('/');
+}
+---
+
+<DashbordLayout>
+  <h1>hey</h1>
+</DashbordLayout>
