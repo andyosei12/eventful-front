@@ -1,0 +1,18 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import DashboardNav from '../components/DashboardNav';
+import { CookiesProvider } from 'react-cookie';
+
+// check if user is logged in
+if (!Astro.cookies.get('token')) {
+  Astro.redirect('/');
+}
+---
+
+<BaseLayout pageTitle="Eventful | Dashboard">
+  <CookiesProvider defaultSetOptions={{ path: '/' }}>
+    <DashboardNav client:only>
+      <slot />
+    </DashboardNav>
+  </CookiesProvider>
+</BaseLayout>
