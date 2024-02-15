@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useCookies } from 'react-cookie';
 
 const navigation = [
   { name: 'Features', href: '#' },
@@ -11,6 +12,18 @@ const navigation = [
 
 const HomeNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cookie, _, removeCookie] = useCookies();
+
+  const token = cookie?.token;
+  const user = cookie?.user;
+
+  const logoutHandler = () => {
+    removeCookie('token');
+
+    removeCookie('user');
+    window.location.reload();
+  };
+
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav
@@ -45,18 +58,32 @@ const HomeNav = () => {
           ))}
         </div>
         <div className="hidden lg:flex lg:items-center lg:flex-1 lg:justify-end gap-x-5 ">
-          <a
-            href="/login"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
-          <a
-            href="#"
-            className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
-          >
-            Create Event
-          </a>
+          {token && (
+            <button
+              onClick={logoutHandler}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Log out <span aria-hidden="true">&rarr;</span>
+            </button>
+          )}
+
+          {!token && (
+            <a
+              href="/login"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </a>
+          )}
+
+          {(user?.role === 'creator' || !token) && (
+            <a
+              href="/dashboard/events/create"
+              className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
+            >
+              Create Event
+            </a>
+          )}
         </div>
       </nav>
       <Dialog
@@ -94,18 +121,31 @@ const HomeNav = () => {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  href="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block font-bold bg-primary-color px-3 py-2.5 text-base leading-7 text-white"
-                >
-                  Create Event
-                </a>
+                {token && (
+                  <button
+                    onClick={logoutHandler}
+                    className="text-sm font-semibold leading-6 text-gray-900 block mb-5"
+                  >
+                    Log out <span aria-hidden="true">&rarr;</span>
+                  </button>
+                )}
+
+                {!token && (
+                  <a
+                    href="/login"
+                    className="text-sm font-semibold leading-6 text-gray-900 block mb-5"
+                  >
+                    Log in <span aria-hidden="true">&rarr;</span>
+                  </a>
+                )}
+                {(user?.role === 'creator' || !token) && (
+                  <a
+                    href="/dashboard/events/create"
+                    className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
+                  >
+                    Create Event
+                  </a>
+                )}
               </div>
             </div>
           </div>

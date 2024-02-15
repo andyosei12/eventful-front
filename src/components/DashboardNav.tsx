@@ -26,7 +26,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 </li>
                 <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
-                    <span className="text-sm">Events</span>
+                    <a href="/dashboard/events" className="text-sm">
+                      Events
+                    </a>
                   </div>
                 </li>
                 <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
@@ -151,11 +153,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                   <div className="border-t border-gray-300">
                     <div className="w-full flex items-center justify-between px-6 pt-1">
                       <div className="flex items-center">
-                        <img
+                        {/* <img
                           alt="profile-pic"
                           src="https://tuk-cdn.s3.amazonaws.com/assets/components/boxed_layout/bl_1.png"
                           className="w-8 h-8 rounded-md"
-                        />
+                        /> */}
                         <p className="md:text-xl text-gray-800 text-base leading-4 ml-2">
                           {user?.firstName}
                         </p>
@@ -332,12 +334,12 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                           ''
                         )}
                         <div className="relative">
-                          <img
+                          {/* <img
                             className="rounded-full h-10 w-10 object-cover"
                             src="https://tuk-cdn.s3.amazonaws.com/assets/components/sidebar_layout/sl_1.png"
                             alt="avatar"
                           />
-                          <div className="w-2 h-2 rounded-full bg-green-400 border border-white absolute inset-0 mb-0 mr-0 m-auto" />
+                          <div className="w-2 h-2 rounded-full bg-green-400 border border-white absolute inset-0 mb-0 mr-0 m-auto" /> */}
                         </div>
                       </div>
                       <p className="text-gray-800 text-sm mx-3">
