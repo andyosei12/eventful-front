@@ -38,7 +38,7 @@ if (Astro.request.method === 'POST') {
       }),
     });
     const responseToJson = await response.json();
-    console.log(responseToJson);
+
     if (responseToJson._id) {
       return Astro.redirect('/dashboard/events');
     } else {

@@ -37,7 +37,7 @@ if (Astro.request.method === 'POST') {
         maxAge: 60 * 60,
         path: '/',
       });
-      return Astro.redirect('/dashboard');
+      return Astro.redirect('/');
     } else {
       errors.message = responseToJson.message;
     }
