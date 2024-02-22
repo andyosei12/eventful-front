@@ -1,0 +1,75 @@
+---
+export const prerender = false;
+import HomeLayout from '../layouts/HomeLayout.astro';
+import EventCard from '../components/EventCard';
+
+type Events = {
+  _id: string;
+  title: string;
+  price: number;
+  date: Date;
+  location: string;
+};
+
+const token = Astro.cookies.get('token')?.value;
+const eventsJson = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`);
+const events: Events[] = await eventsJson.json();
+---
+
+<HomeLayout title="Eventful | Explore Events">
+  <div class="headline-container">
+    <h1>Discover Events for all the things you love</h1>
+  </div>
+  <main>
+    <!-- event cards here -->
+    <section>
+      <div
+        class="container mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 pt-6 gap-8"
+      >
+        {
+          events.map((event) => (
+            <div class="rounded">
+              <EventCard
+                client:load
+                id={event._id}
+                name={event.title}
+                price={event.price}
+                date={event.date}
+                location={event.location}
+                token={token}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</HomeLayout>
+
+<style>
+  .headline-container {
+    display: flex;
+    align-items: center;
+    background: #a39964;
+    background-image: linear-gradient(
+        to bottom,
+        rgb(163 153 100 / 50%),
+        rgb(204 23 68 / 50%)
+      ),
+      url('/gathering.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 25% 60%;
+    height: 55vh;
+    width: 100%;
+    margin-top: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .headline-container h1 {
+    color: white;
+    font-weight: bold;
+    font-size: 3rem;
+    width: 50%;
+  }
+</style>
