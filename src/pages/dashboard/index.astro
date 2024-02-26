@@ -1,12 +1,67 @@
 ---
+export const prerender = false;
+import Stats from '../../components/Stats.astro';
 import DashbordLayout from '../../layouts/DashbordLayout.astro';
 
 // check if user is logged in
 if (!Astro.cookies.get('token')) {
   return Astro.redirect('/');
 }
+
+const totalEvents = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/analytics/events/total`,
+  {
+    headers: {
+      Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
+    },
+  }
+).then((res) => res.json());
+
+const totalEventees = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/analytics/tickets_sold`,
+  {
+    headers: {
+      Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
+    },
+  }
+).then((res) => res.json());
+
+const totalAttendees = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/analytics/tickets/completed`,
+  {
+    headers: {
+      Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
+    },
+  }
+).then((res) => res.json());
+
+const [{ _, total }] = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/analytics/revenue`,
+  {
+    headers: {
+      Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
+    },
+  }
+).then((res) => res.json());
 ---
 
 <DashbordLayout>
-  <h1>hey</h1>
+  <div class="pb-6 px-6">
+    <dh-component>
+      <div class="container pt-6">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <div class="rounded">
+              <Stats
+                events={totalEvents}
+                eventees={totalEventees}
+                attendees={totalAttendees}
+                revenue={total}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </dh-component>
+  </div>
 </DashbordLayout>
