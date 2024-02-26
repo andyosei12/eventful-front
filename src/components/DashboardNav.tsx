@@ -33,7 +33,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 </li>
                 <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
-                    <span className="text-sm">Tickets</span>
+                    <a href="/dashboard/tickets" className="text-sm">
+                      Tickets
+                    </a>
                   </div>
                 </li>
 
@@ -106,9 +108,12 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                       </li>
                       <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
+                          <a
+                            href="/dashboard/tickets"
+                            className="xl:text-base md:text-2xl text-base ml-2"
+                          >
                             Tickets
-                          </span>
+                          </a>
                         </div>
                       </li>
 
