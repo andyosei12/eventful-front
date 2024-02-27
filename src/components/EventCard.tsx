@@ -21,6 +21,7 @@ const EventCard = ({
 }: EventCardProps) => {
   const $isTicketModalOpen = useStore(isTicketModalOpen);
   const $ticketQRCode = useStore(ticketQRCode);
+  const eventDate = new Date(date);
   //   const [cookies] = useCookies([]);
   const onPurchaseHandler = async () => {
     if (!token) {
@@ -120,7 +121,7 @@ const EventCard = ({
             />
           </svg>
           <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
-            {date.toISOString()}
+            {eventDate.toDateString()}
           </p>
         </div>
         <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
