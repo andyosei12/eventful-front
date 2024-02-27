@@ -1,0 +1,57 @@
+---
+type Prop = {
+  events: number;
+  eventees: number;
+  attendees: number;
+  revenue: number;
+};
+
+const { events, eventees, attendees, revenue } = Astro.props;
+---
+
+<div class="bg-gray-900">
+  <div class="mx-auto max-w-7xl">
+    <div
+      class="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+        <p class="text-sm font-medium leading-6 text-gray-400">
+          Number of events
+        </p>
+        <p class="mt-2 flex items-baseline gap-x-2">
+          <span class="text-4xl font-semibold tracking-tight text-white"
+            >{events}</span
+          >
+        </p>
+      </div>
+      <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+        <p class="text-sm font-medium leading-6 text-gray-400">
+          Total number of eventees
+        </p>
+        <p class="mt-2 flex items-baseline gap-x-2">
+          <span class="text-4xl font-semibold tracking-tight text-white"
+            >{eventees}</span
+          >
+        </p>
+      </div>
+      <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+        <p class="text-sm font-medium leading-6 text-gray-400">
+          Total attendance
+        </p>
+        <p class="mt-2 flex items-baseline gap-x-2">
+          <span class="text-4xl font-semibold tracking-tight text-white"
+            >{attendees}</span
+          >
+        </p>
+      </div>
+      <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+        <p class="text-sm font-medium leading-6 text-gray-400">Total Revenue</p>
+        <p class="mt-2 flex items-baseline gap-x-2">
+          <span class="text-4xl font-semibold tracking-tight text-white"
+            >GHC {revenue}</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

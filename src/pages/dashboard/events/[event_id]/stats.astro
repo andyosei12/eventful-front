@@ -1,8 +1,10 @@
 ---
 export const prerender = false;
-import Stats from '../../components/Stats.astro';
-import Chart from '../../components/Chart';
-import DashbordLayout from '../../layouts/DashbordLayout.astro';
+import EventStats from '../../../../components/EventStats.astro';
+import Chart from '../../../../components/Chart';
+import DashbordLayout from '../../../../layouts/DashbordLayout.astro';
+
+const { event_id } = Astro.params;
 
 // check if user is logged in
 if (!Astro.cookies.get('token')) {
@@ -19,7 +21,7 @@ const totalEvents = await fetch(
 ).then((res) => res.json());
 
 const totalEventees = await fetch(
-  `${import.meta.env.PUBLIC_API_URL}/analytics/tickets_sold`,
+  `${import.meta.env.PUBLIC_API_URL}/analytics/${event_id}/tickets_sold`,
   {
     headers: {
       Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
@@ -28,7 +30,7 @@ const totalEventees = await fetch(
 ).then((res) => res.json());
 
 const totalAttendees = await fetch(
-  `${import.meta.env.PUBLIC_API_URL}/analytics/tickets/completed`,
+  `${import.meta.env.PUBLIC_API_URL}/analytics/${event_id}/tickets/completed`,
   {
     headers: {
       Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
@@ -36,17 +38,8 @@ const totalAttendees = await fetch(
   }
 ).then((res) => res.json());
 
-const [{ _, total }] = await fetch(
-  `${import.meta.env.PUBLIC_API_URL}/analytics/revenue`,
-  {
-    headers: {
-      Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
-    },
-  }
-).then((res) => res.json());
-
-const events: { title: string; _id: string }[] = await fetch(
-  `${import.meta.env.PUBLIC_API_URL}/events/auth/creator`,
+const [{ _id: title, total }] = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/analytics/${event_id}/revenue`,
   {
     headers: {
       Authorization: `Bearer ${Astro.cookies.get('token')?.value}`,
@@ -62,8 +55,8 @@ const events: { title: string; _id: string }[] = await fetch(
         <div class="flex flex-wrap">
           <div class="w-full">
             <div class="rounded">
-              <Stats
-                events={totalEvents}
+              <EventStats
+                name={title}
                 eventees={totalEventees}
                 attendees={totalAttendees}
                 revenue={total}
@@ -88,8 +81,8 @@ const events: { title: string; _id: string }[] = await fetch(
           <div class="md:w-1/3 w-full">
             <!-- Remove class [ h-24 ] when adding a card block -->
             <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
-            <div class="rounded">
-              <!-- provide heading class with tailwind -->
+            <!-- <div class="rounded">
+            
               <h3 class="text-2xl font-bold mb-2">View Event Specific stats</h3>
               {
                 events.map((event) => (
@@ -118,7 +111,7 @@ const events: { title: string; _id: string }[] = await fetch(
                   </div>
                 ))
               }
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

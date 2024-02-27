@@ -18,7 +18,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               <ul className="mt-12">
                 <li className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
-                    <span className="text-sm">Dashboard</span>
+                    <a href="/dashboard" className="text-sm">
+                      Dashboard
+                    </a>
                   </div>
                   {/* <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
                     5
@@ -94,9 +96,12 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                     <ul className="mt-12">
                       <li className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
+                          <a
+                            href="/dashboard"
+                            className="xl:text-base md:text-2xl text-base ml-2"
+                          >
                             Dashboard
-                          </span>
+                          </a>
                         </div>
                       </li>
                       <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
@@ -403,7 +408,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </nav>
             {/* Navigation ends */}
             {/* Remove class [ h-64 ] when adding a card block */}
-            <div className="container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6">
+            <div className="container mx-auto py-10 h-64 w-11/12">
               {/* Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border */}
               <div className="w-full h-full rounded">
                 {/* Place your content here */}
