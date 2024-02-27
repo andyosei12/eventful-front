@@ -24,6 +24,8 @@ const QRScanner = () => {
 
     async function onScanSuccess(qrCodeMessage: string) {
       //   scanner.clear();
+      scanner.clear();
+      setScanned(true);
       const ticketJson = await fetch(
         `${import.meta.env.PUBLIC_API_URL}/tickets/${qrCodeMessage}`,
         {
@@ -35,8 +37,6 @@ const QRScanner = () => {
         }
       );
       const ticket = await ticketJson.json();
-      scanner.clear();
-      setScanned(true);
 
       if (ticket.error) {
         toast.error(ticket.message);
