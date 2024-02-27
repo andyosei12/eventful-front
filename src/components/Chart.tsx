@@ -7,7 +7,7 @@ type ChartProps = {
 
 const Chart = ({ eventees, attendees }: ChartProps) => {
   const difference = eventees - attendees;
-  console.log(difference, eventees, attendees);
+
   return (
     <>
       <PieChart
