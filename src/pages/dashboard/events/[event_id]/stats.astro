@@ -63,7 +63,7 @@ const event = await fetch(
                 name={event.title}
                 eventees={totalEventees}
                 attendees={totalAttendees}
-                revenue={revenue.total || 0}
+                revenue={revenue[0].total || 0}
               />
             </div>
           </div>
