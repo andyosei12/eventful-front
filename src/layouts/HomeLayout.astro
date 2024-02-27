@@ -13,7 +13,7 @@ const { title } = Astro.props;
 <BaseLayout pageTitle={title}>
   <div class="bg-white">
     <CookiesProvider defaultSetOptions={{ path: '/' }}>
-      <HomeNav client:load />
+      <HomeNav client:only />
     </CookiesProvider>
     <div class="relative isolate pt-14">
       <slot />
