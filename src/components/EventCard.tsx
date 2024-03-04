@@ -55,77 +55,78 @@ const EventCard = ({
   return (
     <div className="w-full h-full flex items-center justify-center py-8 md:px-0 px-4 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 pb-6 shadow-xl max-w-sm">
-        <img
-          className="w-full"
-          src="/placeholder-image.png"
-          alt="costume-party"
-        />
-        <div className="mt-4 pl-4">
-          <p className="w-2/4 text-base font-bold leading-normal text-gray-800 dark:text-gray-100">
-            {name}
-          </p>
-        </div>
-        <div className="mt-4 flex items-center pl-4 text-gray-600 dark:text-gray-100">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={20}
-            height={20}
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <rect
-              x="3.33337"
-              y="4.16699"
-              width="13.3333"
-              height="13.3333"
-              rx={2}
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M13.3333 2.5V5.83333"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6.66667 2.5V5.83333"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M3.33337 9.16667H16.6667"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9.16663 12.4997H9.99996"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M10 12.5V15"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
-            {eventDate.toDateString()}
-          </p>
-        </div>
-        <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
-          {/* <svg
+        <a href={`/events/${id}`}>
+          <img
+            className="w-full"
+            src="/placeholder-image.png"
+            alt="costume-party"
+          />
+          <div className="mt-4 pl-4">
+            <p className="w-2/4 text-base font-bold leading-normal text-gray-800 dark:text-gray-100">
+              {name}
+            </p>
+          </div>
+          <div className="mt-4 flex items-center pl-4 text-gray-600 dark:text-gray-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={20}
+              height={20}
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <rect
+                x="3.33337"
+                y="4.16699"
+                width="13.3333"
+                height="13.3333"
+                rx={2}
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M13.3333 2.5V5.83333"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6.66667 2.5V5.83333"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M3.33337 9.16667H16.6667"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9.16663 12.4997H9.99996"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10 12.5V15"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+              {eventDate.toDateString()}
+            </p>
+          </div>
+          <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
+            {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width={20}
             height={20}
@@ -150,46 +151,49 @@ const EventCard = ({
             />
           </svg> */}
 
-          <svg
-            fill="#ccc"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 395.71 395.71"
-            width={20}
-            height={20}
-          >
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {' '}
-              <g>
+            <svg
+              fill="#ccc"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 395.71 395.71"
+              width={20}
+              height={20}
+            >
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
                 {' '}
-                <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{' '}
-              </g>{' '}
-            </g>
-          </svg>
-          <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
-            {location}
-          </p>
-        </div>
-        {/* <div className="mt-4 pl-4">
+                <g>
+                  {' '}
+                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{' '}
+                </g>{' '}
+              </g>
+            </svg>
+            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+              {location}
+            </p>
+          </div>
+          {/* <div className="mt-4 pl-4">
           <p className="text-xs leading-3 text-gray-700 dark:text-gray-100">
             Attended by
           </p>
         </div> */}
-        <div className="mt-3 pl-4 flex w-full items-center justify-between">
-          <div className="flex items-center relative">
-            <p className="text-xs leading-3 text-indigo-500 mr-2">Available</p>
+          <div className="mt-3 pl-4 flex w-full items-center justify-between">
+            <div className="flex items-center relative">
+              <p className="text-xs leading-3 text-indigo-500 mr-2">
+                Available
+              </p>
+            </div>
+            <div className="py-2 px-5 flex justify-center items-center bg-gray-800">
+              <p className="text-sm font-bold leading-none text-white dark:text-gray-100">
+                GHC {price}
+              </p>
+            </div>
           </div>
-          <div className="py-2 px-5 flex justify-center items-center bg-gray-800">
-            <p className="text-sm font-bold leading-none text-white dark:text-gray-100">
-              GHC {price}
-            </p>
-          </div>
-        </div>
+        </a>
         <div className="mt-5 pl-4">
           {/* <div className="flex items-center">
             <p className="text-xs leading-3 text-indigo-500 mr-2">Available</p>
@@ -287,60 +291,6 @@ const EventCard = ({
               </svg>
               <p className="text-xs leading-3 text-white dark:text-gray-100 ml-1">
                 Book a Seat
-              </p>
-            </button>
-            <button className="py-2 ml-3 px-3 bg-gray-700 hover:bg-gray-600 ease-in duration-150 rounded-sm flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={12}
-                height={12}
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <circle
-                  cx={3}
-                  cy={6}
-                  r="1.5"
-                  stroke="white"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle
-                  cx={9}
-                  cy={3}
-                  r="1.5"
-                  stroke="white"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle
-                  cx={9}
-                  cy={9}
-                  r="1.5"
-                  stroke="white"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M4.34998 5.3499L7.64998 3.6499"
-                  stroke="white"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M4.34998 6.6499L7.64998 8.3499"
-                  stroke="white"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <p className="text-xs leading-3 text-white dark:text-gray-100 ml-1">
-                Share Event
               </p>
             </button>
           </div>

@@ -1,0 +1,144 @@
+---
+export const prerender = false;
+import HomeLayout from '../../layouts/HomeLayout.astro';
+import PurchaseTicket from '../../components/PurchaseTicket';
+import ShareEvent from '../../components/ShareEvent';
+
+const token = Astro.cookies.get('token')?.value;
+
+const { id } = Astro.params;
+
+type Event = {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  description: string;
+  price: number;
+};
+
+// fetch details of the event
+const eventJson = await fetch(`${import.meta.env.PUBLIC_API_URL}/events/${id}`);
+const event: Event = await eventJson.json();
+
+const eventDate = new Date(event.date);
+---
+
+<HomeLayout title={event.title}>
+  <main>
+    <div class="py-6 md:px-16 px-5">
+      <dh-component>
+        <div class="pt-6">
+          <div class="flex flex-wrap">
+            <div class="md:w-2/3 w-full pb-6 md:pb-0 md:pr-6 text-[#0F354B]">
+              <!-- Remove class [ h-24 ] when adding a card block -->
+              <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+              <div>
+                <h1 class="text-5xl font-bold">{event.title}</h1>
+                <div>
+                  <div class="mt-4 flex items-center gap-1">
+                    <svg
+                      fill="#0F354B"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 395.71 395.71"
+                      width={20}
+                      height={20}
+                    >
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        stoke-linecap="round"
+                        stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        {' '}
+                        <g>
+                          {' '}
+                          <path
+                            d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"
+                          ></path>{' '}
+                        </g>{' '}
+                      </g>
+                    </svg>
+                    <p class="text-lg">{event.location}</p>
+                  </div>
+                  <div class="mt-1 flex items-center gap-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 20 20"
+                      fill="#0F354B"
+                    >
+                      <rect
+                        x="3.33337"
+                        y="4.16699"
+                        width="13.3333"
+                        height="13.3333"
+                        rx={2}
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></rect>
+                      <path
+                        d="M13.3333 2.5V5.83333"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M6.66667 2.5V5.83333"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M3.33337 9.16667H16.6667"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M9.16663 12.4997H9.99996"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path
+                        d="M10 12.5V15"
+                        stroke="currentColor"
+                        stroke-width="1.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg>
+                    <p>{eventDate.toDateString()}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <article class="mt-6 md:w-5/6 w-full">
+                  {event.description}
+                </article>
+              </div>
+            </div>
+            <div class="md:w-1/3 w-full self-center">
+              <!-- Remove class [ h-24 ] when adding a card block -->
+              <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+              <div class="shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6">
+                <div class="mb-5">
+                  <h3>Ticket Price</h3>
+                  <p class="text-2xl">GHC {event.price}</p>
+                </div>
+                <div>
+                  <h3 class="mb-3">Share this event</h3>
+                  <ShareEvent client:load id={id} title={event.title} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dh-component>
+    </div>
+    <PurchaseTicket id={id} price={event.price} token={token} client:load />
+  </main>
+</HomeLayout>
