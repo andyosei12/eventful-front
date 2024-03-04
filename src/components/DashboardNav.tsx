@@ -4,7 +4,22 @@ import { useCookies } from 'react-cookie';
 import { isTicketModalOpen } from '../modalStore';
 import TicketModal from './TicketModal';
 
-const DashboardLayout = ({ children }: { children: ReactNode }) => {
+type User =
+  | {
+      id: string;
+      email: string;
+      firstName: string;
+      role: string;
+    }
+  | undefined;
+
+const DashboardLayout = ({
+  children,
+  userInfo,
+}: {
+  children: ReactNode;
+  userInfo: User;
+}) => {
   const [show, setShow] = useState(false);
   const [profile, setProfile] = useState(false);
   const [{ user }] = useCookies(['user']);
@@ -16,8 +31,8 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       <div className="w-full h-full">
         <div className="flex flex-no-wrap">
           {/* Sidebar starts */}
-          <div className="w-64 absolute lg:relative bg-slate-800  shadow h-screen flex-col justify-between hidden lg:flex pb-12">
-            <div className="px-8">
+          <div className="w-64 absolute lg:relative bg-slate-800  shadow min-h-screen flex-col justify-between hidden lg:flex pb-12">
+            <div className="px-8 ">
               <div className="h-16 w-full flex items-center text-white ">
                 Eventful
               </div>
@@ -32,13 +47,16 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                     5
                   </div> */}
                 </li>
-                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
-                  <div className="flex items-center">
-                    <a href="/dashboard/events" className="text-sm">
-                      Events
-                    </a>
-                  </div>
-                </li>
+                {userInfo?.role === 'creator' && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/events" className="text-sm">
+                        Events
+                      </a>
+                    </div>
+                  </li>
+                )}
+
                 <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
                     <a href="/dashboard/tickets" className="text-sm">
@@ -110,13 +128,19 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                           </a>
                         </div>
                       </li>
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
-                        <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Events
-                          </span>
-                        </div>
-                      </li>
+                      {userInfo?.role === 'creator' && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/events"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Events
+                            </a>
+                          </div>
+                        </li>
+                      )}
+
                       <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
                           <a
