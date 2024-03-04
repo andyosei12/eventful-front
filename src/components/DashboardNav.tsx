@@ -1,22 +1,28 @@
+import { useStore } from '@nanostores/react';
 import { useState, type ReactNode } from 'react';
-import { CookiesProvider } from 'react-cookie';
 import { useCookies } from 'react-cookie';
+import { isTicketModalOpen } from '../modalStore';
+import TicketModal from './TicketModal';
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [show, setShow] = useState(false);
   const [profile, setProfile] = useState(false);
   const [{ user }] = useCookies(['user']);
+  const $isTicketModalOpen = useStore(isTicketModalOpen);
 
   return (
     <>
+      {$isTicketModalOpen && <TicketModal />}
       <div className="w-full h-full">
         <div className="flex flex-no-wrap">
           {/* Sidebar starts */}
-          <div className="w-64 absolute lg:relative bg-white shadow h-screen flex-col justify-between hidden lg:flex pb-12">
+          <div className="w-64 absolute lg:relative bg-slate-800  shadow h-screen flex-col justify-between hidden lg:flex pb-12">
             <div className="px-8">
-              <div className="h-16 w-full flex items-center">Eventful</div>
-              <ul className="mt-12">
-                <li className="flex w-full justify-between text-indigo-700 cursor-pointer items-center mb-6">
+              <div className="h-16 w-full flex items-center text-white ">
+                Eventful
+              </div>
+              <ul className="mt-12 text-white">
+                <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
                   <div className="flex items-center">
                     <a href="/dashboard" className="text-sm">
                       Dashboard
@@ -26,14 +32,14 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                     5
                   </div> */}
                 </li>
-                <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
                     <a href="/dashboard/events" className="text-sm">
                       Events
                     </a>
                   </div>
                 </li>
-                <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
                     <a href="/dashboard/tickets" className="text-sm">
                       Tickets
@@ -41,7 +47,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                   </div>
                 </li>
 
-                <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
+                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center">
                   <div className="flex items-center">
                     <span className="text-sm">Settings</span>
                   </div>
