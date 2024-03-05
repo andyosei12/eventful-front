@@ -38,7 +38,9 @@ const HomeNav = () => {
           <div className="flex lg:flex-1">
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <h1>Eventful</h1>
+              <h1 className="bg-gradient-to-r from-blue-600 to-green-500 inline-block text-transparent bg-clip-text text-2xl font-bold">
+                Eventful
+              </h1>
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -108,7 +110,7 @@ const HomeNav = () => {
           <div className="fixed inset-0 z-50" />
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
+              <a href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Eventful</span>
               </a>
               <button
