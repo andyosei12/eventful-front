@@ -3,6 +3,7 @@ export const prerender = false;
 import HomeLayout from '../../layouts/HomeLayout.astro';
 import PurchaseTicket from '../../components/PurchaseTicket';
 import ShareEvent from '../../components/ShareEvent';
+import { formatTime } from '../../utils';
 
 const token = Astro.cookies.get('token')?.value;
 
@@ -13,6 +14,7 @@ type Event = {
   title: string;
   location: string;
   date: string;
+  time: string;
   description: string;
   price: number;
 };
@@ -22,6 +24,7 @@ const eventJson = await fetch(`${import.meta.env.PUBLIC_API_URL}/events/${id}`);
 const event: Event = await eventJson.json();
 
 const eventDate = new Date(event.date);
+const eventTime = formatTime(event.time);
 ---
 
 <HomeLayout title={event.title}>
@@ -110,7 +113,7 @@ const eventDate = new Date(event.date);
                         stroke-linecap="round"
                         stroke-linejoin="round"></path>
                     </svg>
-                    <p>{eventDate.toDateString()}</p>
+                    <p>{eventDate.toDateString()}, {eventTime}</p>
                   </div>
                 </div>
               </div>
