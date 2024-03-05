@@ -19,7 +19,9 @@ const events: Events[] = await eventsJson.json();
 
 <HomeLayout title="Eventful | Explore Events">
   <div class="headline-container">
-    <h1>Discover Events for all the things you love</h1>
+    <h1 class="text-4xl md:text-6xl font-bold w-full md:w-3/4 text-white">
+      Discover Events for all the things you love
+    </h1>
   </div>
   <main>
     <!-- event cards here -->
@@ -66,12 +68,5 @@ const events: Events[] = await eventsJson.json();
     width: 100%;
     margin-top: 2rem;
     padding-left: 1.5rem;
-  }
-
-  .headline-container h1 {
-    color: white;
-    font-weight: bold;
-    font-size: 3rem;
-    width: 50%;
   }
 </style>

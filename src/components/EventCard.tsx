@@ -164,7 +164,7 @@ const EventCard = ({
         </div> */}
           <div className="mt-3 pl-4 flex w-full items-center justify-between">
             <div className="flex items-center relative">
-              <p className="text-xs leading-3 text-indigo-500 mr-2">
+              <p className="text-xs leading-3 text-primary-color mr-2">
                 Available
               </p>
             </div>
