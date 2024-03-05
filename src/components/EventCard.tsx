@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/react';
 import { isTicketModalOpen } from '../modalStore';
 import { ticketQRCode } from '../modalStore';
+import { formatTime } from '../utils';
 
 type EventCardProps = {
   id: string;
@@ -8,6 +9,7 @@ type EventCardProps = {
   price: number;
   date: Date;
   location: string;
+  time: string;
   token?: string;
 };
 
@@ -17,12 +19,15 @@ const EventCard = ({
   price,
   date,
   location,
+  time,
   token,
 }: EventCardProps) => {
   const $isTicketModalOpen = useStore(isTicketModalOpen);
   const $ticketQRCode = useStore(ticketQRCode);
   const eventDate = new Date(date);
-  //   const [cookies] = useCookies([]);
+
+  const eventTime = formatTime(time);
+
   const onPurchaseHandler = async () => {
     if (!token) {
       window.location.href = '/login';
@@ -124,33 +129,9 @@ const EventCard = ({
             <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
               {eventDate.toDateString()}
             </p>
+            <span>, {eventTime}</span>
           </div>
           <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
-            {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={20}
-            height={20}
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <circle
-              cx={10}
-              cy={10}
-              r="7.5"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M10 5.83301V9.99967L12.5 12.4997"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg> */}
-
             <svg
               fill="#ccc"
               xmlns="http://www.w3.org/2000/svg"
