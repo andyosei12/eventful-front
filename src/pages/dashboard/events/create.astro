@@ -18,9 +18,10 @@ if (Astro.request.method === 'POST') {
     const title = data.get('name');
     const description = data.get('about');
     const date = data.get('date');
+    const time = data.get('time');
     const price = data.get('price');
     const location = data.get('location');
-    const daysBefore = data.get('notification');
+    const days_before = data.get('notification');
 
     const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`, {
       method: 'POST',
@@ -34,7 +35,8 @@ if (Astro.request.method === 'POST') {
         date,
         price,
         location,
-        daysBefore,
+        days_before,
+        time,
       }),
     });
     const responseToJson = await response.json();
@@ -122,6 +124,23 @@ if (Astro.request.method === 'POST') {
 
           <div class="sm:col-span-3">
             <label
+              for="time"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Time</label
+            >
+            <div class="mt-2">
+              <input
+                type="time"
+                name="time"
+                id="time"
+                autocomplete="given-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required
+              />
+            </div>
+          </div>
+          <div class="sm:col-span-3">
+            <label
               for="price"
               class="block text-sm font-medium leading-6 text-gray-900"
               >Price</label
@@ -151,7 +170,7 @@ if (Astro.request.method === 'POST') {
             </div>
           </div>
 
-          <div class="sm:col-span-4">
+          <div class="sm:col-span-3">
             <label
               for="location"
               class="block text-sm font-medium leading-6 text-gray-900"
