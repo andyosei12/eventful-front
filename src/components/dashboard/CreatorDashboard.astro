@@ -2,8 +2,11 @@
 export const prerender = false;
 import Stats from '../Stats.astro';
 import Chart from '../Chart';
+import FetchError from '../FetchError';
 
 const token = Astro.cookies.get('token')?.value;
+
+let errors = ""
 
 const totalEvents = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/analytics/events/total`,
@@ -12,7 +15,7 @@ const totalEvents = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+).then((res) => res.json()).catch(err => errors = err.message);
 
 const totalEventees = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/analytics/tickets_sold`,
@@ -21,7 +24,7 @@ const totalEventees = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+).then((res) => res.json()).catch(err => errors = err.message)
 
 const totalAttendees = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/analytics/tickets/completed`,
@@ -30,7 +33,7 @@ const totalAttendees = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+).then((res) => res.json()).catch(err => errors = err.message)
 
 const revenue = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/analytics/revenue`,
@@ -39,7 +42,7 @@ const revenue = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+).then((res) => res.json()).catch(err => errors = err.message)
 
 const events: { title: string; _id: string }[] = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/events/auth/creator`,
@@ -48,10 +51,11 @@ const events: { title: string; _id: string }[] = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+).then((res) => res.json()).catch(err => errors = err.message)
 ---
 
-<dh-component>
+{errors && <FetchError client:load title="analytics"/>}
+{!errors && <dh-component>
   <div class="container pt-6">
     <div class="flex flex-wrap">
       <div class="w-full">
@@ -119,4 +123,5 @@ const events: { title: string; _id: string }[] = await fetch(
       </div>
     </div>
   </div>
-</dh-component>
+</dh-component>}
+
