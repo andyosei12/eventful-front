@@ -1,9 +1,10 @@
 ---
 export const prerender = false;
-import HomeLayout from '../../layouts/HomeLayout.astro';
-import EventCard from '../../components/EventCard';
+import HomeLayout from "../../layouts/HomeLayout.astro";
+import EventCard from "../../components/EventCard";
+import FetchError from "../../components/FetchError";
 
-type Events = {
+type Event = {
   _id: string;
   title: string;
   price: number;
@@ -12,9 +13,12 @@ type Events = {
   location: string;
 };
 
-const token = Astro.cookies.get('token')?.value;
-const eventsJson = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`);
-const events: Events[] = await eventsJson.json();
+let errors = "";
+
+const token = Astro.cookies.get("token")?.value;
+const events: Event[] = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`)
+  .then((res) => res.json())
+  .catch((err) => (errors = err.message));
 ---
 
 <HomeLayout title="Eventful | Explore Events">
@@ -26,26 +30,32 @@ const events: Events[] = await eventsJson.json();
   <main>
     <!-- event cards here -->
     <section>
-      <div
-        class="container mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 pt-6 gap-8"
-      >
-        {
-          events.map((event) => (
-            <div class="rounded">
-              <EventCard
-                client:load
-                id={event._id}
-                name={event.title}
-                price={event.price}
-                date={event.date}
-                location={event.location}
-                time={event.time}
-                token={token}
-              />
-            </div>
-          ))
-        }
-      </div>
+      {errors && <FetchError client:load title="events" />}
+      {
+        !errors && events.length === 0 && (
+          <h1 class="text-center text-2xl mb-3">No tickets found</h1>
+        )
+      }
+      {
+        !errors && events.length > 0 && (
+          <div class="container mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 pt-6 gap-8">
+            {events.map((event) => (
+              <div class="rounded">
+                <EventCard
+                  client:load
+                  id={event._id}
+                  name={event.title}
+                  price={event.price}
+                  date={event.date}
+                  location={event.location}
+                  time={event.time}
+                  token={token}
+                />
+              </div>
+            ))}
+          </div>
+        )
+      }
     </section>
   </main>
 </HomeLayout>
@@ -60,7 +70,7 @@ const events: Events[] = await eventsJson.json();
         rgb(163 153 100 / 50%),
         rgb(204 23 68 / 50%)
       ),
-      url('/gathering.jpg');
+      url("/gathering.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 25% 60%;

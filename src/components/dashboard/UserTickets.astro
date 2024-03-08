@@ -1,6 +1,7 @@
 ---
-import ViewQrCode from './ViewQrCode';
-const token = Astro.cookies.get('token')?.value;
+import FetchError from "../FetchError";
+import ViewQrCode from "./ViewQrCode";
+const token = Astro.cookies.get("token")?.value;
 
 type ticket = {
   _id: string;
@@ -11,6 +12,8 @@ type ticket = {
   };
 };
 
+let errors = "";
+
 const userTickets: ticket[] = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/tickets/auth/user`,
   {
@@ -18,7 +21,9 @@ const userTickets: ticket[] = await fetch(
       Authorization: `Bearer ${token}`,
     },
   }
-).then((res) => res.json());
+)
+  .then((res) => res.json())
+  .catch((err) => (errors = err.message));
 ---
 
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
@@ -28,107 +33,122 @@ const userTickets: ticket[] = await fetch(
         tabindex="0"
         class="focus:outline-none text-base md:text-lg lg:text-xl font-bold leading-tight text-gray-800 dark:text-white"
       >
-        Orders
+        Tickets
       </p>
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full whitespace-nowrap">
-        <thead>
-          <tr
-            class="bg-gray-50 dark:bg-gray-700 h-16 w-full text-sm leading-none text-gray-800 dark:text-white"
-          >
-            <th
-              tabindex="0"
-              class="focus:outline-none font-normal text-left pl-8">#</th
-            >
-            <th
-              tabindex="0"
-              class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
-              >Event</th
-            >
-            <th
-              tabindex="0"
-              class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
-              >Price</th
-            >
-            <th
-              tabindex="0"
-              class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
-              >Ticket #</th
-            >
-            <th
-              tabindex="0"
-              class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
-              >Status</th
-            >
-            <th tabindex="0" class="focus:outline-none font-normal text-left"
-              >QR Code</th
-            >
-          </tr>
-        </thead>
-        <tbody class="w-full">
-          {
-            userTickets.map((ticket, idx) => (
-              <tr class="h-20 text-sm leading-none text-gray-800 dark:text-white border-b border-gray-100">
-                <td tabindex="0" class="focus:outline-none pl-8">
-                  {idx + 1}
-                </td>
-                <td
+      {errors && <FetchError client:load title="tickets" />}
+      {
+        !errors && userTickets.length === 0 && (
+          <h1 class="text-center text-2xl mb-3">No tickets found</h1>
+        )
+      }
+      {
+        !errors && userTickets.length > 0 && (
+          <table class="w-full whitespace-nowrap">
+            <thead>
+              <tr class="bg-gray-50 dark:bg-gray-700 h-16 w-full text-sm leading-none text-gray-800 dark:text-white">
+                <th
                   tabindex="0"
-                  class="focus:outline-none font-medium px-10 lg:px-6 xl:px-0"
+                  class="focus:outline-none font-normal text-left pl-8"
                 >
-                  {ticket.event.title}
-                </td>
-                <td
+                  #
+                </th>
+                <th
                   tabindex="0"
-                  class="focus:outline-none px-10 lg:px-6 xl:px-0"
+                  class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
                 >
-                  GHC {ticket.event.price}
-                </td>
-
-                <td class="px-10 lg:px-6 xl:px-0">
-                  <p
+                  Event
+                </th>
+                <th
+                  tabindex="0"
+                  class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
+                >
+                  Price
+                </th>
+                <th
+                  tabindex="0"
+                  class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
+                >
+                  Ticket #
+                </th>
+                <th
+                  tabindex="0"
+                  class="focus:outline-none font-normal text-left px-10 lg:px-6 xl:px-0"
+                >
+                  Status
+                </th>
+                <th
+                  tabindex="0"
+                  class="focus:outline-none font-normal text-left"
+                >
+                  QR Code
+                </th>
+              </tr>
+            </thead>
+            <tbody class="w-full">
+              {userTickets.map((ticket, idx) => (
+                <tr class="h-20 text-sm leading-none text-gray-800 dark:text-white border-b border-gray-100">
+                  <td tabindex="0" class="focus:outline-none pl-8">
+                    {idx + 1}
+                  </td>
+                  <td
                     tabindex="0"
-                    class="focus:outline-none underline text-blue-700 dark:text-blue-400"
+                    class="focus:outline-none font-medium px-10 lg:px-6 xl:px-0"
                   >
-                    {ticket._id}
-                  </p>
-                </td>
-                <td class="px-10 lg:px-6 xl:px-0">
-                  <div
-                    class:list={[
-                      'flex items-center justify-center w-20 h-6 bg-yellow-100 rounded-full',
-                      { 'bg-yellow-100': ticket.status === 'pending' },
-                      { 'bg-green-100': ticket.status === 'completed' },
-                    ]}
+                    {ticket.event.title}
+                  </td>
+                  <td
+                    tabindex="0"
+                    class="focus:outline-none px-10 lg:px-6 xl:px-0"
                   >
+                    GHC {ticket.event.price}
+                  </td>
+
+                  <td class="px-10 lg:px-6 xl:px-0">
                     <p
                       tabindex="0"
-                      class="focus:outline-none text-xs leading-3 text-yellow-700"
+                      class="focus:outline-none underline text-blue-700 dark:text-blue-400"
+                    >
+                      {ticket._id}
+                    </p>
+                  </td>
+                  <td class="px-10 lg:px-6 xl:px-0">
+                    <div
                       class:list={[
-                        'focus:outline-none text-xs leading-3',
-                        { 'text-yellow-700': ticket.status === 'pending' },
-                        { 'text-green-700': ticket.status === 'completed' },
+                        "flex items-center justify-center w-20 h-6 bg-yellow-100 rounded-full",
+                        { "bg-yellow-100": ticket.status === "pending" },
+                        { "bg-green-100": ticket.status === "completed" },
                       ]}
                     >
-                      {ticket.status}
-                    </p>
-                  </div>
-                </td>
-                <td>
-                  {token && ticket.status === 'pending' && (
-                    <ViewQrCode
-                      client:load
-                      token={token}
-                      ticketId={ticket._id}
-                    />
-                  )}
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+                      <p
+                        tabindex="0"
+                        class="focus:outline-none text-xs leading-3 text-yellow-700"
+                        class:list={[
+                          "focus:outline-none text-xs leading-3",
+                          { "text-yellow-700": ticket.status === "pending" },
+                          { "text-green-700": ticket.status === "completed" },
+                        ]}
+                      >
+                        {ticket.status}
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    {token && ticket.status === "pending" && (
+                      <ViewQrCode
+                        client:load
+                        token={token}
+                        ticketId={ticket._id}
+                      />
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
     </div>
   </div>
 </div>
