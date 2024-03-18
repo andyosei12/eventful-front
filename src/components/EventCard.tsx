@@ -1,7 +1,8 @@
-import { useStore } from '@nanostores/react';
-import { isTicketModalOpen } from '../modalStore';
-import { ticketQRCode } from '../modalStore';
-import { formatTime } from '../utils';
+import { useState } from "react";
+import { useStore } from "@nanostores/react";
+import { isTicketModalOpen } from "../modalStore";
+import { ticketQRCode } from "../modalStore";
+import { formatTime } from "../utils";
 
 type EventCardProps = {
   id: string;
@@ -22,6 +23,7 @@ const EventCard = ({
   time,
   token,
 }: EventCardProps) => {
+  const [isBooking, setIsBooking] = useState(false);
   const $isTicketModalOpen = useStore(isTicketModalOpen);
   const $ticketQRCode = useStore(ticketQRCode);
   const eventDate = new Date(date);
@@ -30,20 +32,20 @@ const EventCard = ({
 
   const onPurchaseHandler = async () => {
     if (!token) {
-      window.location.href = '/login';
+      window.location.href = "/login";
     } else {
+      setIsBooking(true);
       try {
         const ticketJson = await fetch(
           `${import.meta.env.PUBLIC_API_URL}/tickets`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               event_id: id,
-              daysBefore: 1,
             }),
           }
         );
@@ -54,6 +56,8 @@ const EventCard = ({
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsBooking(false);
       }
     }
   };
@@ -146,22 +150,17 @@ const EventCard = ({
                 strokeLinejoin="round"
               ></g>
               <g id="SVGRepo_iconCarrier">
-                {' '}
+                {" "}
                 <g>
-                  {' '}
-                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{' '}
-                </g>{' '}
+                  {" "}
+                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{" "}
+                </g>{" "}
               </g>
             </svg>
             <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
               {location}
             </p>
           </div>
-          {/* <div className="mt-4 pl-4">
-          <p className="text-xs leading-3 text-gray-700 dark:text-gray-100">
-            Attended by
-          </p>
-        </div> */}
           <div className="mt-3 pl-4 flex w-full items-center justify-between">
             <div className="flex items-center relative">
               <p className="text-xs leading-3 text-primary-color mr-2">
@@ -176,70 +175,10 @@ const EventCard = ({
           </div>
         </a>
         <div className="mt-5 pl-4">
-          {/* <div className="flex items-center">
-            <p className="text-xs leading-3 text-indigo-500 mr-2">Available</p>
-            <div className="pl-2 border-l-2 border-gray-100 dark:border-gray-200">
-              <p className="text-xs leading-3 text-indigo-500">
-                86/90 seats booked
-              </p>
-            </div>
-          </div> */}
-          {/* <div className="mt-4 flex items-center text-gray-600 dark:text-gray-100">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={16}
-              height={16}
-              viewBox="0 0 16 16"
-              fill="none"
-              className="text-gray-600 dark:text-gray-100"
-            >
-              <path
-                d="M6.66663 9.33342C7.1055 9.78135 7.7062 10.0338 8.33329 10.0338C8.96039 10.0338 9.56109 9.78135 9.99996 9.33342L12.6666 6.66676C13.5871 5.74628 13.5871 4.2539 12.6666 3.33342C11.7462 2.41295 10.2538 2.41295 9.33329 3.33342L8.99996 3.66676"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9.3333 6.66665C8.89443 6.21872 8.29373 5.96631 7.66663 5.96631C7.03954 5.96631 6.43884 6.21872 5.99997 6.66665L3.3333 9.33332C2.41283 10.2538 2.41283 11.7462 3.3333 12.6666C4.25377 13.5871 5.74616 13.5871 6.66663 12.6666L6.99997 12.3333"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <p className="ml-2 text-xs leading-3 text-gray-600 dark:text-gray-100">
-              Veevents.com/cosutmeparty
-            </p>
-            <svg
-              className="ml-3.5 cursor-pointer text-gray-600 dark:text-gray-100"
-              xmlns="http://www.w3.org/2000/svg"
-              width={16}
-              height={16}
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <rect
-                x="5.33331"
-                y="5.33301"
-                width={8}
-                height={8}
-                rx="1.33333"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M10.6667 5.33366V4.00033C10.6667 3.26395 10.0697 2.66699 9.33335 2.66699H4.00002C3.26364 2.66699 2.66669 3.26395 2.66669 4.00033V9.33366C2.66669 10.07 3.26364 10.667 4.00002 10.667H5.33335"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div> */}
           <div className="flex items-center mt-4">
             <button
               onClick={onPurchaseHandler}
+              id="booking"
               className="py-2 px-3 bg-gradient-to-br from-indigo-400 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 rounded-sm flex items-center"
             >
               <svg
@@ -271,7 +210,7 @@ const EventCard = ({
                 />
               </svg>
               <p className="text-xs leading-3 text-white dark:text-gray-100 ml-1">
-                Book a Seat
+                {isBooking ? "Processing..." : "Book a Seat"}
               </p>
             </button>
           </div>
