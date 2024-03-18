@@ -1,6 +1,7 @@
-import { useStore } from '@nanostores/react';
-import { isTicketModalOpen } from '../modalStore';
-import { ticketQRCode } from '../modalStore';
+import { useState } from "react";
+import { useStore } from "@nanostores/react";
+import { isTicketModalOpen } from "../modalStore";
+import { ticketQRCode } from "../modalStore";
 
 type PurchaseTicketProps = {
   id?: string;
@@ -9,23 +10,24 @@ type PurchaseTicketProps = {
 };
 
 const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
+  const [isBooking, setIsBooking] = useState(false);
   const $isTicketModalOpen = useStore(isTicketModalOpen);
   const onPurchaseHandler = async () => {
     if (!token) {
-      window.location.href = '/login';
+      window.location.href = "/login";
     } else {
+      setIsBooking(true);
       try {
         const ticketJson = await fetch(
           `${import.meta.env.PUBLIC_API_URL}/tickets`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               event_id: id,
-              daysBefore: 1,
             }),
           }
         );
@@ -36,6 +38,8 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsBooking(false);
       }
     }
   };
@@ -46,7 +50,7 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
         onClick={onPurchaseHandler}
         className="text-lg font-bold bg-[#108544] leading-6 text-white rounded-md p-4 shadow-sm"
       >
-        Purchase Ticket
+        {isBooking ? "Processing..." : "Purchase Ticket"}
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import ToastNotification from '../components/Toast';
+import { ViewTransitions } from "astro:transitions";
+import ToastNotification from "../components/Toast";
 interface Props {
   pageTitle: string;
 }
@@ -23,7 +23,7 @@ const { pageTitle } = Astro.props;
     <!-- <ViewTransitions /> -->
   </head>
   <body>
-    <ToastNotification client:only />
+    <ToastNotification client:only="react" />
     <slot />
   </body>
 </html>
