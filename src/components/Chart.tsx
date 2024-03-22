@@ -26,6 +26,20 @@ const Chart = ({ eventees, attendees }: ChartProps) => {
           fill: '#121212',
         }}
       />
+      <section className="flex flex-wrap gap-2">
+        <div className="flex gap-1 mb-2">
+          <div className="bg-[#E38627] h-6 w-6"></div>
+          <h1>Total Eventees</h1>
+        </div>
+        <div className="flex gap-1 mb-2">
+          <div className="bg-[#C13C37] h-6 w-6"></div>
+          <h1>Total Attendees</h1>
+        </div>
+        <div className="flex gap-1 mb-2">
+          <div className="bg-[#6A2135] h-6 w-6"></div>
+          <h1>Total Absentees</h1>
+        </div>
+      </section>
     </>
   );
 };
