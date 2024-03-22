@@ -23,7 +23,7 @@ if (userJson) {
 <BaseLayout pageTitle="Eventful | Dashboard">
   <ViewTransitions />
   <CookiesProvider defaultSetOptions={{ path: '/' }}>
-    <DashboardNav client:load userInfo={user}>
+    <DashboardNav client:only="react" userInfo={user}>
       <slot />
     </DashboardNav>
   </CookiesProvider>
