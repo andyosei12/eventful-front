@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { isTicketModalOpen } from '../modalStore';
-import { ticketQRCode } from '../modalStore';
+import { isTicketModalOpen } from '../store';
+import { ticketQRCode } from '../store';
 
 type PurchaseTicketProps = {
   id?: string;

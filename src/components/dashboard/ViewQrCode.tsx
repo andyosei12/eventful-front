@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { isTicketModalOpen, ticketQRCode } from '../../modalStore';
+import { isTicketModalOpen, ticketQRCode } from '../../store';
 import { useStore } from '@nanostores/react';
 type ViewQrCodeProps = {
   token: string;

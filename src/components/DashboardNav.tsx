@@ -1,8 +1,9 @@
-import { useStore } from "@nanostores/react";
-import { useState, type ReactNode } from "react";
-import { useCookies } from "react-cookie";
-import { isTicketModalOpen } from "../modalStore";
-import TicketModal from "./TicketModal";
+import { useStore } from '@nanostores/react';
+import { useState, type ReactNode } from 'react';
+import { useCookies } from 'react-cookie';
+import { isTicketModalOpen, isDeleteModalOpen } from '../store';
+import TicketModal from './TicketModal';
+import DeleteModal from './DeleteModal';
 
 type User =
   | {
@@ -25,16 +26,18 @@ const DashboardLayout = ({
   const [{ user, token }, _, removeCookie] = useCookies();
 
   const $isTicketModalOpen = useStore(isTicketModalOpen);
+  const $isDeleteModalOpen = useStore(isDeleteModalOpen);
 
   const logoutHandler = () => {
-    window.location.href = "/";
-    removeCookie("token", { path: "/" });
-    removeCookie("user", { path: "/" });
+    window.location.href = '/';
+    removeCookie('token', { path: '/' });
+    removeCookie('user', { path: '/' });
   };
 
   return (
     <>
       {$isTicketModalOpen && <TicketModal />}
+      {$isDeleteModalOpen && <DeleteModal token={token} />}
       <div className="w-full h-full">
         <div className="flex flex-no-wrap">
           {/* Sidebar starts */}
@@ -54,7 +57,7 @@ const DashboardLayout = ({
                     5
                   </div> */}
                 </li>
-                {userInfo?.role === "creator" && (
+                {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                     <div className="flex items-center">
                       <a href="/dashboard/events" className="text-sm">
@@ -85,8 +88,8 @@ const DashboardLayout = ({
           <div
             className={
               show
-                ? "w-full h-full absolute z-40  transform  translate-x-0 "
-                : "   w-full h-full absolute z-40  transform -translate-x-full"
+                ? 'w-full h-full absolute z-40  transform  translate-x-0 '
+                : '   w-full h-full absolute z-40  transform -translate-x-full'
             }
           >
             <div
@@ -135,7 +138,7 @@ const DashboardLayout = ({
                           </a>
                         </div>
                       </li>
-                      {userInfo?.role === "creator" && (
+                      {userInfo?.role === 'creator' && (
                         <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                           <div className="flex items-center">
                             <a
@@ -341,7 +344,7 @@ const DashboardLayout = ({
                             </li>
                           </ul>
                         ) : (
-                          ""
+                          ''
                         )}
                         <div className="relative"></div>
                       </div>
@@ -376,7 +379,7 @@ const DashboardLayout = ({
                 id="menu"
               >
                 {show ? (
-                  ""
+                  ''
                 ) : (
                   <svg
                     aria-label="Main Menu"

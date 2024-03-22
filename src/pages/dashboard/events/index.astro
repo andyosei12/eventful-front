@@ -1,9 +1,14 @@
 ---
 export const prerender = false;
-import FetchError from "../../../components/FetchError";
-import DashbordLayout from "../../../layouts/DashbordLayout.astro";
+import FetchError from '../../../components/FetchError';
+import DashbordLayout from '../../../layouts/DashbordLayout.astro';
+import DeleteButton from '../../../components/DeleteButton';
 
-const token = Astro.cookies.get("token")?.value;
+const token = Astro.cookies.get('token')?.value;
+
+if (!Astro.cookies.get('token')) {
+  return Astro.redirect('/login');
+}
 
 type Event = {
   _id: string;
@@ -11,13 +16,13 @@ type Event = {
   price: number;
 };
 
-let errors = "";
+let errors = '';
 
 const events: Event[] = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/events/auth/creator`,
   {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   }
@@ -53,7 +58,7 @@ const events: Event[] = await fetch(
         {errors && <FetchError client:load title="events" />}
         {
           !errors && events.length === 0 && (
-            <h1 class="text-center text-2xl mb-3">No event found</h1>
+            <h1 class="text-center text-2xl mb-3 text-white">No event found</h1>
           )
         }
         {
@@ -120,17 +125,7 @@ const events: Event[] = await fetch(
                         >
                           Edit
                         </a>
-                        <button
-                          class="w-5 focus:ring-2 rounded-md focus:outline-none"
-                          role="button"
-                          aria-label="options"
-                        >
-                          <img
-                            class="w-5"
-                            src="https://tuk-cdn.s3.amazonaws.com/can-uploader/table_2-svg2.svg"
-                            alt="dropdown"
-                          />
-                        </button>
+                        <DeleteButton client:load event={event} />
                       </div>
                     </td>
                   </tr>

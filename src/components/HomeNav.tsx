@@ -3,7 +3,7 @@ import { useStore } from "@nanostores/react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useCookies } from "react-cookie";
-import { isTicketModalOpen } from "../modalStore";
+import { isTicketModalOpen } from "../store";
 import TicketModal from "./TicketModal";
 
 const navigation = [
