@@ -36,8 +36,8 @@ const EventCard = ({
     } else {
       setIsBooking(true);
       try {
-        const ticketJson = await fetch(
-          `${import.meta.env.PUBLIC_API_URL}/tickets`,
+        const paymentInitiationJson = await fetch(
+          `${import.meta.env.PUBLIC_API_URL}/payment/initiate-transaction`,
           {
             method: 'POST',
             headers: {
@@ -45,14 +45,16 @@ const EventCard = ({
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              event_id: id,
+              eventId: id,
             }),
           }
         );
-        const ticket = await ticketJson.json();
-        if (ticket.qr_code) {
-          isTicketModalOpen.set(!$isTicketModalOpen);
-          ticketQRCode.set(ticket.qr_code);
+        const paymentInitiationData = await paymentInitiationJson.json();
+        console.log(paymentInitiationData);
+        if (paymentInitiationData.data.authorization_url) {
+          const paystackAuthorizationUrl =
+            paymentInitiationData.data.authorization_url;
+          window.open(paystackAuthorizationUrl, '_blank');
         }
       } catch (error) {
         console.log(error);
