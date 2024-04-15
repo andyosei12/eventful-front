@@ -36,7 +36,7 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
         if (paymentInitiationData.data.authorization_url) {
           const paystackAuthorizationUrl =
             paymentInitiationData.data.authorization_url;
-          window.open(paystackAuthorizationUrl, '_blank');
+          window.location.href = paystackAuthorizationUrl;
         }
       } catch (error) {
         console.log(error);
