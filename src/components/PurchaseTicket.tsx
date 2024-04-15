@@ -19,7 +19,7 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
       setIsBooking(true);
       try {
         const ticketJson = await fetch(
-          `${import.meta.env.PUBLIC_API_URL}/tickets`,
+          `${import.meta.env.PUBLIC_API_URL}/payment/initiate-transaction`,
           {
             method: 'POST',
             headers: {
@@ -27,7 +27,7 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              event_id: id,
+              eventId: id,
             }),
           }
         );
