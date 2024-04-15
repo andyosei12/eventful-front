@@ -18,7 +18,7 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
     } else {
       setIsBooking(true);
       try {
-        const ticketJson = await fetch(
+        const paymentInitiationJson = await fetch(
           `${import.meta.env.PUBLIC_API_URL}/payment/initiate-transaction`,
           {
             method: 'POST',
@@ -31,10 +31,12 @@ const PurchaseTicket = ({ id, price, token }: PurchaseTicketProps) => {
             }),
           }
         );
-        const ticket = await ticketJson.json();
-        if (ticket.qr_code) {
-          isTicketModalOpen.set(!$isTicketModalOpen);
-          ticketQRCode.set(ticket.qr_code);
+        const paymentInitiationData = await paymentInitiationJson.json();
+        console.log(paymentInitiationData);
+        if (paymentInitiationData.data.authorization_url) {
+          const paystackAuthorizationUrl =
+            paymentInitiationData.data.authorization_url;
+          window.open(paystackAuthorizationUrl, '_blank');
         }
       } catch (error) {
         console.log(error);
