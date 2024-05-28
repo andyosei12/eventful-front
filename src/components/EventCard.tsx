@@ -66,14 +66,17 @@ const EventCard = ({
     }
   };
   return (
-    <div className="w-full h-full flex items-center justify-center py-8 md:px-0 px-4 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 pb-6 shadow-xl max-w-sm">
+    <div className="py-8 md:px-0 px-4">
+      <div className="bg-gray-800 pb-6 shadow-xl max-w-sm">
         <a href={`/events/${id}`}>
-          <img
-            className="w-full"
-            src={image ? image : '/placeholder-image.png'}
-            alt="costume-party"
-          />
+          <div className="w-full h-72">
+            <img
+              className="w-full h-full object-fill"
+              src={image ? image : '/placeholder-image.png'}
+              alt="costume-party"
+            />
+          </div>
+
           <div className="mt-4 pl-4">
             <p className="w-2/4 text-base font-bold leading-normal text-gray-800 dark:text-gray-100">
               {name}
