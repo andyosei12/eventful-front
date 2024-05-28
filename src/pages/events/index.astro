@@ -1,8 +1,8 @@
 ---
 export const prerender = false;
-import HomeLayout from "../../layouts/HomeLayout.astro";
-import EventCard from "../../components/EventCard";
-import FetchError from "../../components/FetchError";
+import HomeLayout from '../../layouts/HomeLayout.astro';
+import EventCard from '../../components/EventCard';
+import FetchError from '../../components/FetchError';
 
 type Event = {
   _id: string;
@@ -11,11 +11,12 @@ type Event = {
   date: Date;
   time: string;
   location: string;
+  image_secure_url: string;
 };
 
-let errors = "";
+let errors = '';
 
-const token = Astro.cookies.get("token")?.value;
+const token = Astro.cookies.get('token')?.value;
 const events: Event[] = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`)
   .then((res) => res.json())
   .catch((err) => (errors = err.message));
@@ -50,6 +51,7 @@ const events: Event[] = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`)
                   location={event.location}
                   time={event.time}
                   token={token}
+                  image={event.image_secure_url}
                 />
               </div>
             ))}
@@ -70,7 +72,7 @@ const events: Event[] = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`)
         rgb(163 153 100 / 50%),
         rgb(204 23 68 / 50%)
       ),
-      url("/gathering.jpg");
+      url('/gathering.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 25% 60%;
