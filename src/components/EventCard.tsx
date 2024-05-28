@@ -78,11 +78,11 @@ const EventCard = ({
           </div>
 
           <div className="mt-4 pl-4">
-            <p className="w-2/4 text-base font-bold leading-normal text-gray-800 dark:text-gray-100">
+            <p className="w-2/4 text-base font-bold leading-normal text-gray-100">
               {name}
             </p>
           </div>
-          <div className="mt-4 flex items-center pl-4 text-gray-600 dark:text-gray-100">
+          <div className="mt-4 flex items-center pl-4 text-gray-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -137,12 +137,12 @@ const EventCard = ({
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+            <p className="text-sm leading-none text-gray-100 ml-2">
               {eventDate.toDateString()}
             </p>
             <span>, {eventTime}</span>
           </div>
-          <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
+          <div className="mt-4 pl-4 flex items-center text-gray-100">
             <svg
               fill="#ccc"
               xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +164,7 @@ const EventCard = ({
                 </g>{' '}
               </g>
             </svg>
-            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+            <p className="text-sm leading-none text-gray-100 ml-2">
               {location}
             </p>
           </div>
@@ -175,7 +175,7 @@ const EventCard = ({
               </p>
             </div>
             <div className="py-2 px-5 flex justify-center items-center bg-gray-800">
-              <p className="text-sm font-bold leading-none text-white dark:text-gray-100">
+              <p className="text-sm font-bold leading-none text-gray-100">
                 GHC {price}
               </p>
             </div>
@@ -216,7 +216,7 @@ const EventCard = ({
                   fill="white"
                 />
               </svg>
-              <p className="text-xs leading-3 text-white dark:text-gray-100 ml-1">
+              <p className="text-xs leading-3 text-gray-100 ml-1">
                 {isBooking ? 'Processing...' : 'Book a Seat'}
               </p>
             </button>
