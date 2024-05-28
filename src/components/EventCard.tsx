@@ -12,6 +12,7 @@ type EventCardProps = {
   location: string;
   time: string;
   token?: string;
+  image?: string;
 };
 
 const EventCard = ({
@@ -22,6 +23,7 @@ const EventCard = ({
   location,
   time,
   token,
+  image,
 }: EventCardProps) => {
   const [isBooking, setIsBooking] = useState(false);
   const $isTicketModalOpen = useStore(isTicketModalOpen);
@@ -69,7 +71,7 @@ const EventCard = ({
         <a href={`/events/${id}`}>
           <img
             className="w-full"
-            src="/placeholder-image.png"
+            src={image ? image : '/placeholder-image.png'}
             alt="costume-party"
           />
           <div className="mt-4 pl-4">
