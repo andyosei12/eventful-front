@@ -75,6 +75,16 @@ const DashboardLayout = ({
                   </div>
                 </li>
 
+                {userInfo?.role === 'creator' && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/tellers" className="text-sm">
+                        Tellers
+                      </a>
+                    </div>
+                  </li>
+                )}
+
                 <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center">
                   <div className="flex items-center">
                     <span className="text-sm">Settings</span>

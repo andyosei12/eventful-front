@@ -1,0 +1,162 @@
+---
+export const prerender = false;
+import FetchError from '../../../components/FetchError';
+import DashbordLayout from '../../../layouts/DashbordLayout.astro';
+import DeleteButton from '../../../components/DeleteButton';
+
+const token = Astro.cookies.get('token')?.value;
+
+if (!Astro.cookies.get('token')) {
+  return Astro.redirect('/login');
+}
+
+type Teller = {
+  _id: string;
+  user: {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
+};
+
+let errors = '';
+
+const tellers: Teller[] = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/users/tellers/`,
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }
+)
+  .then((res) => res.json())
+  .catch((err) => (errors = err.message));
+---
+
+<DashbordLayout>
+  <div class="bg-white dark:bg-gray-800 shadow px-6 sm:px-12 py-5 sm:py-10">
+    <div class="mb-5 sm:mb-10 rounded-tl-lg rounded-tr-lg">
+      <div class="sm:flex items-center justify-between">
+        <p
+          tabindex="0"
+          class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 dark:text-white"
+        >
+          Tellers
+        </p>
+        <div class="flex items-center mt-4 sm:mt-0">
+          <a
+            href="/dashboard/tellers/create"
+            class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 inline-flex md:ml-3 whitespace-nowrap items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded"
+          >
+            <p class="text-xs sm:text-sm font-medium leading-none text-white">
+              Add Teller
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <div class="w-full overflow-x-auto">
+        {errors && <FetchError client:load title="tellers" />}
+        {
+          !errors && tellers.length === 0 && (
+            <h1 class="text-center text-2xl mb-3 text-white">
+              No teller found
+            </h1>
+          )
+        }
+        {
+          !errors && tellers.length > 0 && (
+            <table class="w-full whitespace-nowrap">
+              <thead>
+                <tr class="h-20 w-full text-sm leading-none text-gray-600 dark:text-gray-200">
+                  <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-4"
+                  >
+                    #
+                  </th>
+                  {/* <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10"
+                  >
+                    Teller #
+                  </th> */}
+                  <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10"
+                  >
+                    First Name
+                  </th>
+                  <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10"
+                  >
+                    Surname
+                  </th>
+                  <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10"
+                  >
+                    Email
+                  </th>
+                  <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10 w-32"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="w-full">
+                {tellers.map((teller, idx) => (
+                  <tr class="h-20 text-sm leading-none text-gray-700 dark:text-white border-b border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900">
+                    <td tabindex="0" class="focus:outline-none pl-4">
+                      {idx + 1}
+                    </td>
+                    <td tabindex="0" class="focus:outline-none pl-10">
+                      {teller.user.first_name}
+                    </td>
+                    <td class="pl-10">
+                      <div class="flex items-center">
+                        <p tabindex="0" class="focus:outline-none">
+                          {teller.user.last_name}
+                        </p>
+                      </div>
+                    </td>
+                    <td tabindex="0" class="focus:outline-none pl-10">
+                      {teller.user.email}
+                    </td>
+                    <td class="pl-10">
+                      <div class="flex items-center">
+                        {/* <a
+                          href={`/dashboard/events/${event._id}/edit`}
+                          class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 focus:outline-none bg-gray-100 dark:bg-gray-600 mr-5 hover:bg-gray-200 dark:hover:bg-gray-900 py-2.5 px-5 rounded text-sm leading-3 text-gray-600 dark:text-gray-200"
+                        >
+                          Edit
+                        </a> */}
+                        <button class="w-5 focus:ring-2 rounded-md focus:outline-none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"
+                          >
+                            <path
+                              fill="#d33636"
+                              d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</DashbordLayout>
