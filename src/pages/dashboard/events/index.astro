@@ -125,7 +125,7 @@ const events: Event[] = await fetch(
                         >
                           Edit
                         </a>
-                        <DeleteButton client:load event={event} />
+                        <DeleteButton url=`${import.meta.env.PUBLIC_API_URL}/events/${event._id}` client:load />
                       </div>
                     </td>
                   </tr>

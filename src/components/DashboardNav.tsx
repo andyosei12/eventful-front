@@ -2,8 +2,8 @@ import { useStore } from '@nanostores/react';
 import { useState, type ReactNode } from 'react';
 import { useCookies } from 'react-cookie';
 import { isTicketModalOpen, isDeleteModalOpen } from '../store';
-import TicketModal from './TicketModal';
-import DeleteModal from './DeleteModal';
+import TicketModal from './modals/TicketModal';
+import DeleteModal from './modals/DeleteModal';
 
 type User =
   | {
@@ -78,7 +78,11 @@ const DashboardLayout = ({
                 {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                     <div className="flex items-center">
-                      <a href="/dashboard/tellers" className="text-sm">
+                      <a
+                        href="/dashboard/tellers"
+                        className="text-sm"
+                        data-astro-reload
+                      >
                         Tellers
                       </a>
                     </div>

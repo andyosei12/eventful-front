@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useStore } from "@nanostores/react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useCookies } from "react-cookie";
-import { isTicketModalOpen } from "../store";
-import TicketModal from "./TicketModal";
+import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { Dialog } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useCookies } from 'react-cookie';
+import { isTicketModalOpen } from '../store';
+import TicketModal from './modals/TicketModal';
 
 const navigation = [
-  { name: "Features", href: "#" },
-  { name: "Pricing", href: "#" },
-  { name: "Support", href: "#" },
-  { name: "Explore events", href: "/events" },
+  { name: 'Features', href: '#' },
+  { name: 'Pricing', href: '#' },
+  { name: 'Support', href: '#' },
+  { name: 'Explore events', href: '/events' },
 ];
 
 const HomeNav = () => {
@@ -22,9 +22,9 @@ const HomeNav = () => {
   const user = cookie?.user;
 
   const logoutHandler = () => {
-    removeCookie("token");
+    removeCookie('token');
 
-    removeCookie("user");
+    removeCookie('user');
   };
 
   return (
@@ -83,7 +83,7 @@ const HomeNav = () => {
               </a>
             )}
 
-            {(user?.role === "creator" || !token) && (
+            {(user?.role === 'creator' || !token) && (
               <a
                 href="/dashboard/events/create"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
@@ -91,7 +91,7 @@ const HomeNav = () => {
                 Create Event
               </a>
             )}
-            {user?.role === "regular" && (
+            {user?.role === 'regular' && (
               <a
                 href="/dashboard"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
@@ -153,7 +153,7 @@ const HomeNav = () => {
                       Log in <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
-                  {(user?.role === "creator" || !token) && (
+                  {(user?.role === 'creator' || !token) && (
                     <a
                       href="/dashboard/events/create"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
@@ -161,7 +161,7 @@ const HomeNav = () => {
                       Create Event
                     </a>
                   )}
-                  {user?.role === "regular" && (
+                  {user?.role === 'regular' && (
                     <a
                       href="/dashboard"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"

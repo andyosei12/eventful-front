@@ -1,17 +1,10 @@
-import { isDeleteModalOpen, event } from '../store';
+import { isDeleteModalOpen, event, deleteUrl } from '../store';
 
-type EventProps = {
-  event: {
-    _id: string;
-    title: string;
-    price: number;
-  };
-};
-
-const DeleteButton = ({ event: evt }: EventProps) => {
+const DeleteButton = ({ url }: { url: string }) => {
   const openDeleteModalHandler = () => {
     isDeleteModalOpen.set(true);
-    event.set(evt);
+    // event.set(evt);
+    deleteUrl.set(url);
   };
   return (
     <>
