@@ -1,6 +1,6 @@
 import { useStore } from '@nanostores/react';
-import { isTicketModalOpen } from '../store';
-import { ticketQRCode } from '../store';
+import { isTicketModalOpen } from '../../store';
+import { ticketQRCode } from '../../store';
 
 const TicketModal = () => {
   const $ticketQRCode = useStore(ticketQRCode);
