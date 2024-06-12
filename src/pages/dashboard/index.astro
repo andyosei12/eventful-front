@@ -3,6 +3,7 @@ export const prerender = false;
 import DashbordLayout from '../../layouts/DashbordLayout.astro';
 import CreatorDashboard from '../../components/dashboard/CreatorDashboard.astro';
 import UserDashboard from '../../components/dashboard/UserDashboard.astro';
+import TellerDashboard from '../../components/dashboard/TellerDashboard.astro';
 
 // check if user is logged in
 if (!Astro.cookies.get('token')) {
@@ -18,5 +19,6 @@ const user = JSON.parse(userJson);
   <div class="pb-6 px-6">
     {user?.role === 'creator' && <CreatorDashboard />}
     {user?.role === 'regular' && <UserDashboard />}
+    {user?.role === 'teller' && <TellerDashboard />}
   </div>
 </DashbordLayout>

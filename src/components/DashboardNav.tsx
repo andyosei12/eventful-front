@@ -47,16 +47,20 @@ const DashboardLayout = ({
                 <a href="/">Eventful</a>
               </div>
               <ul className="mt-12 text-white">
-                <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
-                  <div className="flex items-center">
-                    <a href="/dashboard" className="text-sm">
-                      Dashboard
-                    </a>
-                  </div>
-                  {/* <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
+                {(userInfo?.role === 'creator' ||
+                  userInfo?.role === 'regular') && (
+                  <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard" className="text-sm">
+                        Dashboard
+                      </a>
+                    </div>
+                    {/* <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
                     5
                   </div> */}
-                </li>
+                  </li>
+                )}
+
                 {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                     <div className="flex items-center">
@@ -102,8 +106,8 @@ const DashboardLayout = ({
           <div
             className={
               show
-                ? 'w-full h-full absolute z-40  transform  translate-x-0 '
-                : '   w-full h-full absolute z-40  transform -translate-x-full'
+                ? 'w-full h-full absolute z-50  transform  translate-x-0 '
+                : '   w-full h-full absolute z-50  transform -translate-x-full'
             }
           >
             <div

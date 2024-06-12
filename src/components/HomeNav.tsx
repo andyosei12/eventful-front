@@ -91,14 +91,15 @@ const HomeNav = () => {
                 Create Event
               </a>
             )}
-            {user?.role === 'regular' && (
-              <a
-                href="/dashboard"
-                className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
-              >
-                Dashboard
-              </a>
-            )}
+            {user?.role === 'regular' ||
+              (user?.role === 'teller' && (
+                <a
+                  href="/dashboard"
+                  className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
+                >
+                  Dashboard
+                </a>
+              ))}
           </div>
         </nav>
         <Dialog
