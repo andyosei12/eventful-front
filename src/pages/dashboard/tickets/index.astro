@@ -16,6 +16,12 @@ const user = JSON.parse(userJson);
 
 <DashbordLayout>
   <main>
-    {user.role === 'creator' ? <ScanTicket /> : <UserTickets />}
+    {
+      user.role === 'creator' || user.role === 'teller' ? (
+        <ScanTicket />
+      ) : (
+        <UserTickets />
+      )
+    }
   </main>
 </DashbordLayout>
