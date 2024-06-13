@@ -95,7 +95,13 @@ const DashboardLayout = ({
 
                 <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center">
                   <div className="flex items-center">
-                    <span className="text-sm">Settings</span>
+                    <a
+                      href="/dashboard/reset-password"
+                      className="text-sm"
+                      data-astro-reload
+                    >
+                      Reset Password
+                    </a>
                   </div>
                 </li>
               </ul>
@@ -182,9 +188,13 @@ const DashboardLayout = ({
 
                       <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
                         <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Settings
-                          </span>
+                          <a
+                            href="/dashboard/reset-password"
+                            className="text-sm"
+                            data-astro-reload
+                          >
+                            Reset Password
+                          </a>
                         </div>
                       </li>
                     </ul>
