@@ -93,7 +93,7 @@ const DashboardLayout = ({
                   </li>
                 )}
 
-                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center">
+                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
                     <a
                       href="/dashboard/reset-password"
@@ -186,11 +186,11 @@ const DashboardLayout = ({
                         </div>
                       </li>
 
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
+                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
                           <a
                             href="/dashboard/reset-password"
-                            className="text-sm"
+                            className="xl:text-base md:text-2xl text-base ml-2"
                             data-astro-reload
                           >
                             Reset Password
