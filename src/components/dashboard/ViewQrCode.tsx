@@ -20,6 +20,7 @@ const ViewQrCode = ({ token, ticketId }: ViewQrCodeProps) => {
         }
       );
       const ticket = await qrCodeJson.json();
+      console.log(ticket);
       if (ticket.qr_code) {
         isTicketModalOpen.set(!$isTicketModalOpen);
         ticketQRCode.set(ticket.qr_code);
