@@ -1,5 +1,6 @@
 ---
 export const prerender = false;
+import UpdateEventPhoto from '../../../../components/dashboard/UpdateEventPhoto';
 import DashboardLayout from '../../../../layouts/DashbordLayout.astro';
 
 if (!Astro.cookies.get('token')) {
@@ -29,22 +30,25 @@ if (Astro.request.method === 'POST') {
     const location = data.get('location');
     const days_before = data.get('notification');
 
-    const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/events/${event_id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        date,
-        price,
-        location,
-        days_before,
-        time,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.PUBLIC_API_URL}/events/${event_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          date,
+          price,
+          location,
+          days_before,
+          time,
+        }),
+      }
+    );
     const responseToJson = await response.json();
 
     if (responseToJson._id) {
@@ -65,11 +69,17 @@ if (Astro.request.method === 'POST') {
 ---
 
 <DashboardLayout>
+  <UpdateEventPhoto
+    id={event_id}
+    curImageUrl={event.image_secure_url}
+    token={token}
+    client:load
+  />
   <form method="POST">
     <div class="space-y-12">
-      <div class="border-b border-gray-900/10 pb-12">
+      <div class="pb-5">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
-          Edit event
+          Edit event details
         </h2>
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -196,7 +206,8 @@ if (Astro.request.method === 'POST') {
             </div>
           </div>
         </div>
-        <div class="border-b border-gray-900/10 pb-12">
+        <div class="pb-5">
+          <!-- <div class="border-b border-gray-900/10 pb-12"> -->
           <h2 class="text-base font-semibold leading-7 text-gray-900 mt-10">
             Notifications
           </h2>
@@ -252,11 +263,13 @@ if (Astro.request.method === 'POST') {
       </div>
     </div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6">
+    <div
+      class="flex items-center justify-end border-b border-gray-900/10 pb-12"
+    >
       <button
         type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >Save</button
+        >Update</button
       >
     </div>
   </form>
