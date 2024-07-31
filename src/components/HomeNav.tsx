@@ -39,7 +39,7 @@ const HomeNav = () => {
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <h1 className="bg-gradient-to-r from-blue-600 to-green-500 inline-block text-transparent bg-clip-text text-2xl font-bold">
-                Eventful
+                Efiada.
               </h1>
             </a>
           </div>
