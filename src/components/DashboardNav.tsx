@@ -82,11 +82,7 @@ const DashboardLayout = ({
                 {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                     <div className="flex items-center">
-                      <a
-                        href="/dashboard/tellers"
-                        className="text-sm"
-                        data-astro-reload
-                      >
+                      <a href="/dashboard/tellers" className="text-sm">
                         Tellers
                       </a>
                     </div>
@@ -95,11 +91,7 @@ const DashboardLayout = ({
 
                 <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
-                    <a
-                      href="/dashboard/reset-password"
-                      className="text-sm"
-                      data-astro-reload
-                    >
+                    <a href="/dashboard/reset-password" className="text-sm">
                       Reset Password
                     </a>
                   </div>
@@ -186,12 +178,24 @@ const DashboardLayout = ({
                         </div>
                       </li>
 
+                      {userInfo?.role === 'creator' && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/tellers"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Tellers
+                            </a>
+                          </div>
+                        </li>
+                      )}
+
                       <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
                           <a
                             href="/dashboard/reset-password"
                             className="xl:text-base md:text-2xl text-base ml-2"
-                            data-astro-reload
                           >
                             Reset Password
                           </a>
