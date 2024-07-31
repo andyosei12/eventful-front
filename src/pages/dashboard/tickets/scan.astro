@@ -2,7 +2,7 @@
 export const prerender = false;
 import DashbordLayout from '../../../layouts/DashbordLayout.astro';
 import ScanTicket from '../../../components/dashboard/ScanTicket.astro';
-import UserTickets from '../../../components/dashboard/UserTickets.astro';
+// import UserTickets from '../../../components/dashboard/UserTickets.astro';
 
 // check if user is logged in
 if (!Astro.cookies.get('token')) {
@@ -23,6 +23,6 @@ const user = JSON.parse(userJson);
         <UserTickets />
       )
     } -->
-    <UserTickets />
+    <ScanTicket />
   </main>
 </DashbordLayout>

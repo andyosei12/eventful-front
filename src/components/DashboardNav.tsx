@@ -47,19 +47,16 @@ const DashboardLayout = ({
                 <a href="/">Efiada</a>
               </div>
               <ul className="mt-12 text-white">
-                {(userInfo?.role === 'creator' ||
-                  userInfo?.role === 'regular') && (
-                  <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
-                    <div className="flex items-center">
-                      <a href="/dashboard" className="text-sm">
-                        Dashboard
-                      </a>
-                    </div>
-                    {/* <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
+                <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
+                  <div className="flex items-center">
+                    <a href="/dashboard" className="text-sm">
+                      Dashboard
+                    </a>
+                  </div>
+                  {/* <div className="py-1 px-3 bg-indigo-700 rounded text-white flex items-center justify-center text-xs">
                     5
                   </div> */}
-                  </li>
-                )}
+                </li>
 
                 {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
@@ -78,6 +75,27 @@ const DashboardLayout = ({
                     </a>
                   </div>
                 </li>
+
+                {(userInfo?.role === 'creator' ||
+                  userInfo?.role === 'teller') && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/events/completed" className="text-sm">
+                        Events Attended
+                      </a>
+                    </div>
+                  </li>
+                )}
+                {(userInfo?.role === 'creator' ||
+                  userInfo?.role === 'teller') && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/tickets/scan" className="text-sm">
+                        Ticket Scanner
+                      </a>
+                    </div>
+                  </li>
+                )}
 
                 {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
@@ -177,6 +195,33 @@ const DashboardLayout = ({
                           </a>
                         </div>
                       </li>
+
+                      {(userInfo?.role === 'creator' ||
+                        userInfo?.role === 'teller') && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/events/completed"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Events Attended
+                            </a>
+                          </div>
+                        </li>
+                      )}
+                      {(userInfo?.role === 'creator' ||
+                        userInfo?.role === 'teller') && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/tickets/scan"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Ticket Scanner
+                            </a>
+                          </div>
+                        </li>
+                      )}
 
                       {userInfo?.role === 'creator' && (
                         <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
