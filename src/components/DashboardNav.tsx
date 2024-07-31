@@ -44,7 +44,7 @@ const DashboardLayout = ({
           <div className="w-64 absolute lg:relative bg-slate-800  shadow min-h-screen flex-col justify-between hidden lg:flex pb-12">
             <div className="px-8 ">
               <div className="h-16 w-full flex items-center text-white ">
-                <a href="/">Eventful</a>
+                <a href="/">Efiada</a>
               </div>
               <ul className="mt-12 text-white">
                 {(userInfo?.role === 'creator' ||
