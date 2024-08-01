@@ -83,15 +83,15 @@ const HomeNav = () => {
               </a>
             )}
 
-            {(user?.role === 'creator' || !token) && (
+            {!token && (
               <a
-                href="/dashboard/events/create"
+                href="/register"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
               >
-                Create Event
+                Register
               </a>
             )}
-            {(user?.role === 'regular' || user?.role === 'teller') && (
+            {token && (
               <a
                 href="/dashboard"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
@@ -153,15 +153,15 @@ const HomeNav = () => {
                       Log in <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
-                  {(user?.role === 'creator' || !token) && (
+                  {!token && (
                     <a
-                      href="/dashboard/events/create"
+                      href="/register"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
                     >
-                      Create Event
+                      Register
                     </a>
                   )}
-                  {(user?.role === 'regular' || user?.role === 'teller') && (
+                  {token && (
                     <a
                       href="/dashboard"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
