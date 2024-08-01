@@ -52,6 +52,8 @@ const revenue = await fetch(
   .then((res) => res.json())
   .catch((err) => (errors = err.message));
 
+  console.log(revenue);
+
 const events: { title: string; _id: string }[] = await fetch(
   `${import.meta.env.PUBLIC_API_URL}/events/auth/creator`,
   {
@@ -67,6 +69,7 @@ const events: { title: string; _id: string }[] = await fetch(
 {errors && <FetchError client:load title="analytics" />}
 {
   !errors && (
+  <div>{revenue?.balance || 0 }</div>
     <dh-component>
       <div class="container pt-6">
         <div class="flex flex-wrap">
