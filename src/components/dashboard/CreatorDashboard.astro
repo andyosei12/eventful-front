@@ -76,7 +76,7 @@ const events: { title: string; _id: string }[] = await fetch(
                 events={totalEvents}
                 eventees={totalEventees}
                 attendees={totalAttendees}
-                revenue={revenue?.balance || 0}
+                revenue={revenue.balance}
               />
             </div>
           </div>
