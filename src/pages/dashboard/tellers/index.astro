@@ -16,7 +16,7 @@ type Teller = {
     _id: string;
     first_name: string;
     last_name: string;
-    email: string;
+    phone_number: string;
   };
 };
 
@@ -100,7 +100,7 @@ const tellers: Teller[] = await fetch(
                     tabindex="0"
                     class="focus:outline-none font-normal text-left pl-10"
                   >
-                    Email
+                    Phone Number
                   </th>
                   <th
                     tabindex="0"
@@ -127,7 +127,7 @@ const tellers: Teller[] = await fetch(
                       </div>
                     </td>
                     <td tabindex="0" class="focus:outline-none pl-10">
-                      {teller.user.email}
+                      {teller.user.phone_number}
                     </td>
                     <td class="pl-10">
                       <div class="flex items-center">
