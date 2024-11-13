@@ -1,42 +1,42 @@
 ---
 export const prerender = false;
-import DashbordLayout from '../../../layouts/DashbordLayout.astro';
-import SubmitBtn from '../../../components/SubmitBtn';
+import DashbordLayout from "../../../layouts/DashbordLayout.astro";
+import SubmitBtn from "../../../components/SubmitBtn";
 
 // get user data
-const userJson = Astro.cookies.get('user')?.value as string;
+const userJson = Astro.cookies.get("user")?.value as string;
 const user = userJson && JSON.parse(userJson);
-if (user?.role !== 'creator') {
-  return Astro.redirect('/login');
+if (user?.role !== "creator") {
+  return Astro.redirect("/login");
 }
 
-const token = Astro.cookies.get('token')?.value;
+const token = Astro.cookies.get("token")?.value;
 
-const errors = { message: '' };
+const errors = { message: "" };
 
-if (Astro.request.method === 'POST') {
+if (Astro.request.method === "POST") {
   try {
-    errors.message = '';
+    errors.message = "";
 
     const data = await Astro.request.formData();
-    const first_name = data.get('first_name');
-    const last_name = data.get('last_name');
-    const email = data.get('email');
+    const first_name = data.get("first_name");
+    const last_name = data.get("last_name");
+    const phone_number = data.get("phone_number");
 
     const response = await fetch(
       `${import.meta.env.PUBLIC_API_URL}/auth/teller-signup`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ first_name, last_name, email }),
+        body: JSON.stringify({ first_name, last_name, phone_number }),
       }
     );
     const responseToJson = await response.json();
     if (!responseToJson.error) {
-      return Astro.redirect('/dashboard/tellers');
+      return Astro.redirect("/dashboard/tellers");
     } else {
       errors.message = responseToJson.message;
     }
@@ -87,17 +87,17 @@ if (Astro.request.method === 'POST') {
     </div>
     <div>
       <label
-        for="email"
+        for="phone_number"
         class="block text-sm font-medium leading-6 text-gray-900"
-        >Email address</label
+        >Phone number</label
       >
       <div class="mt-2">
         <input
-          id="email"
-          name="email"
-          type="email"
+          id="phone_number"
+          name="phone_number"
+          type="number"
           required
-          class="block md:w-2/4 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          class="block md:w-2/4 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
       </div>
     </div>

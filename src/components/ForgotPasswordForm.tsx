@@ -1,34 +1,34 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState('');
-  const [errors, setErrors] = useState('');
-  const [success, setSuccess] = useState('');
+  const [phone_number, setPhoneNumber] = useState("");
+  const [errors, setErrors] = useState("");
+  const [success, setSuccess] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const submitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    setErrors('');
-    setSuccess('');
+    setErrors("");
+    setSuccess("");
     try {
       const response = await fetch(
         `${import.meta.env.PUBLIC_API_URL}/auth/forgot-password`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ phone_number }),
         }
       );
       const responseToJson = await response.json();
       if (responseToJson.error) {
         setErrors(responseToJson.message);
       } else {
-        setSuccess('A reset password has been sent to your email');
+        setSuccess("A reset password has been sent to your phone");
         setTimeout(() => {
-          window.location.href = '/login';
+          window.location.href = "/login";
         }, 5000);
       }
     } catch (err) {
@@ -70,19 +70,19 @@ const ForgotPasswordForm = () => {
         <form className="space-y-6" onSubmit={submitFormHandler}>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="phone_number"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address
+              Phone Number
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
+                id="phone_number"
+                name="phone_number"
+                type="number"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
           </div>
@@ -91,7 +91,7 @@ const ForgotPasswordForm = () => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              {submitting ? 'Submitting...' : 'Reset Password'}
+              {submitting ? "Submitting..." : "Reset Password"}
             </button>
           </div>
         </form>

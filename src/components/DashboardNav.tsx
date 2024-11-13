@@ -8,7 +8,7 @@ import DeleteModal from './modals/DeleteModal';
 type User =
   | {
       id: string;
-      email: string;
+      phoneNumber: string;
       firstName: string;
       role: string;
     }

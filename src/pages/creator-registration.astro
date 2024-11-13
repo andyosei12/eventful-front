@@ -1,43 +1,43 @@
 ---
 export const prerender = false;
-import HomeLayout from '../layouts/HomeLayout.astro';
+import HomeLayout from "../layouts/HomeLayout.astro";
 
-const errors = { message: '' };
+const errors = { message: "" };
 
 // check to see if user is logged in
-if (Astro.cookies.get('token')) {
-  return Astro.redirect('/dashboard');
+if (Astro.cookies.get("token")) {
+  return Astro.redirect("/dashboard");
 }
 
-if (Astro.request.method === 'POST') {
+if (Astro.request.method === "POST") {
   try {
-    errors.message = '';
+    errors.message = "";
 
     const data = await Astro.request.formData();
-    const first_name = data.get('first_name');
-    const last_name = data.get('last_name');
-    const email = data.get('email');
-    const password = data.get('password');
+    const first_name = data.get("first_name");
+    const last_name = data.get("last_name");
+    const phone_number = data.get("phone_number");
+    const password = data.get("password");
 
     const response = await fetch(
       `${import.meta.env.PUBLIC_API_URL}/auth/signup`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           first_name,
           last_name,
-          email,
+          phone_number,
           password,
-          role: 'creator',
+          role: "creator",
         }),
       }
     );
     const responseToJson = await response.json();
     if (!responseToJson.error) {
-      return Astro.redirect('/login');
+      return Astro.redirect("/login");
     } else {
       errors.message = responseToJson.message;
     }
@@ -111,17 +111,17 @@ if (Astro.request.method === 'POST') {
         </div>
         <div>
           <label
-            for="email"
+            for="phone_number"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Email address</label
+            >Phone Number</label
           >
           <div class="mt-2">
             <input
-              id="email"
-              name="email"
-              type="email"
+              id="phone_number"
+              name="phone_number"
+              type="number"
               required
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
         </div>
