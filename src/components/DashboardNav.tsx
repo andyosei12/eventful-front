@@ -7,7 +7,7 @@ import TicketModal from "./TicketModal";
 type User =
   | {
       id: string;
-      email: string;
+      phoneNumber: string;
       firstName: string;
       role: string;
     }
