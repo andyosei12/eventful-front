@@ -34,7 +34,7 @@ const events: Event[] = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`)
       {errors && <FetchError client:load title="events" />}
       {
         !errors && events.length === 0 && (
-          <h1 class="text-center text-2xl mb-3">No tickets found</h1>
+          <h1 class="text-center text-2xl mb-3">No events found</h1>
         )
       }
       {
