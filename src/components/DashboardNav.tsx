@@ -1,8 +1,9 @@
-import { useStore } from "@nanostores/react";
-import { useState, type ReactNode } from "react";
-import { useCookies } from "react-cookie";
-import { isTicketModalOpen } from "../modalStore";
-import TicketModal from "./TicketModal";
+import { useStore } from '@nanostores/react';
+import { useState, type ReactNode } from 'react';
+import { useCookies } from 'react-cookie';
+import { isTicketModalOpen, isDeleteModalOpen } from '../store';
+import TicketModal from './modals/TicketModal';
+import DeleteModal from './modals/DeleteModal';
 
 type User =
   | {
@@ -25,23 +26,25 @@ const DashboardLayout = ({
   const [{ user, token }, _, removeCookie] = useCookies();
 
   const $isTicketModalOpen = useStore(isTicketModalOpen);
+  const $isDeleteModalOpen = useStore(isDeleteModalOpen);
 
   const logoutHandler = () => {
-    window.location.href = "/";
-    removeCookie("token", { path: "/" });
-    removeCookie("user", { path: "/" });
+    window.location.href = '/';
+    removeCookie('token', { path: '/' });
+    removeCookie('user', { path: '/' });
   };
 
   return (
     <>
       {$isTicketModalOpen && <TicketModal />}
+      {$isDeleteModalOpen && <DeleteModal token={token} />}
       <div className="w-full h-full">
         <div className="flex flex-no-wrap">
           {/* Sidebar starts */}
           <div className="w-64 absolute lg:relative bg-slate-800  shadow min-h-screen flex-col justify-between hidden lg:flex pb-12">
             <div className="px-8 ">
               <div className="h-16 w-full flex items-center text-white ">
-                <a href="/">Eventful</a>
+                <a href="/">Efiada</a>
               </div>
               <ul className="mt-12 text-white">
                 <li className="flex w-full justify-between  cursor-pointer items-center mb-6">
@@ -54,7 +57,8 @@ const DashboardLayout = ({
                     5
                   </div> */}
                 </li>
-                {userInfo?.role === "creator" && (
+
+                {userInfo?.role === 'creator' && (
                   <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                     <div className="flex items-center">
                       <a href="/dashboard/events" className="text-sm">
@@ -72,9 +76,42 @@ const DashboardLayout = ({
                   </div>
                 </li>
 
-                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center">
+                {(userInfo?.role === 'creator' ||
+                  userInfo?.role === 'teller') && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/events/completed" className="text-sm">
+                        Events Attended
+                      </a>
+                    </div>
+                  </li>
+                )}
+                {(userInfo?.role === 'creator' ||
+                  userInfo?.role === 'teller') && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/tickets/scan" className="text-sm">
+                        Ticket Scanner
+                      </a>
+                    </div>
+                  </li>
+                )}
+
+                {userInfo?.role === 'creator' && (
+                  <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
+                    <div className="flex items-center">
+                      <a href="/dashboard/tellers" className="text-sm">
+                        Tellers
+                      </a>
+                    </div>
+                  </li>
+                )}
+
+                <li className="flex w-full justify-between  hover:text-indigo-700 cursor-pointer items-center mb-6">
                   <div className="flex items-center">
-                    <span className="text-sm">Settings</span>
+                    <a href="/dashboard/reset-password" className="text-sm">
+                      Reset Password
+                    </a>
                   </div>
                 </li>
               </ul>
@@ -85,8 +122,8 @@ const DashboardLayout = ({
           <div
             className={
               show
-                ? "w-full h-full absolute z-40  transform  translate-x-0 "
-                : "   w-full h-full absolute z-40  transform -translate-x-full"
+                ? 'w-full h-full absolute z-50  transform  translate-x-0 '
+                : '   w-full h-full absolute z-50  transform -translate-x-full'
             }
           >
             <div
@@ -135,7 +172,7 @@ const DashboardLayout = ({
                           </a>
                         </div>
                       </li>
-                      {userInfo?.role === "creator" && (
+                      {userInfo?.role === 'creator' && (
                         <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                           <div className="flex items-center">
                             <a
@@ -159,11 +196,54 @@ const DashboardLayout = ({
                         </div>
                       </li>
 
-                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center">
+                      {(userInfo?.role === 'creator' ||
+                        userInfo?.role === 'teller') && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/events/completed"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Events Attended
+                            </a>
+                          </div>
+                        </li>
+                      )}
+                      {(userInfo?.role === 'creator' ||
+                        userInfo?.role === 'teller') && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/tickets/scan"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Ticket Scanner
+                            </a>
+                          </div>
+                        </li>
+                      )}
+
+                      {userInfo?.role === 'creator' && (
+                        <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
+                          <div className="flex items-center">
+                            <a
+                              href="/dashboard/tellers"
+                              className="xl:text-base md:text-2xl text-base ml-2"
+                            >
+                              Tellers
+                            </a>
+                          </div>
+                        </li>
+                      )}
+
+                      <li className="flex w-full justify-between text-gray-600 hover:text-indigo-700 cursor-pointer items-center mb-6">
                         <div className="flex items-center">
-                          <span className="xl:text-base md:text-2xl text-base ml-2">
-                            Settings
-                          </span>
+                          <a
+                            href="/dashboard/reset-password"
+                            className="xl:text-base md:text-2xl text-base ml-2"
+                          >
+                            Reset Password
+                          </a>
                         </div>
                       </li>
                     </ul>
@@ -341,7 +421,7 @@ const DashboardLayout = ({
                             </li>
                           </ul>
                         ) : (
-                          ""
+                          ''
                         )}
                         <div className="relative"></div>
                       </div>
@@ -376,7 +456,7 @@ const DashboardLayout = ({
                 id="menu"
               >
                 {show ? (
-                  ""
+                  ''
                 ) : (
                   <svg
                     aria-label="Main Menu"

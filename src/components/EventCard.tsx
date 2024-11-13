@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useStore } from "@nanostores/react";
-import { isTicketModalOpen } from "../modalStore";
-import { ticketQRCode } from "../modalStore";
-import { formatTime } from "../utils";
+import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { isTicketModalOpen } from '../store';
+import { ticketQRCode } from '../store';
+import { formatTime } from '../utils';
 
 type EventCardProps = {
   id: string;
@@ -12,6 +12,7 @@ type EventCardProps = {
   location: string;
   time: string;
   token?: string;
+  image?: string;
 };
 
 const EventCard = ({
@@ -22,6 +23,7 @@ const EventCard = ({
   location,
   time,
   token,
+  image,
 }: EventCardProps) => {
   const [isBooking, setIsBooking] = useState(false);
   const $isTicketModalOpen = useStore(isTicketModalOpen);
@@ -32,27 +34,29 @@ const EventCard = ({
 
   const onPurchaseHandler = async () => {
     if (!token) {
-      window.location.href = "/login";
+      window.location.href = '/login';
     } else {
       setIsBooking(true);
       try {
-        const ticketJson = await fetch(
-          `${import.meta.env.PUBLIC_API_URL}/tickets`,
+        const paymentInitiationJson = await fetch(
+          `${import.meta.env.PUBLIC_API_URL}/payment/initiate-transaction`,
           {
-            method: "POST",
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              event_id: id,
+              eventId: id,
             }),
           }
         );
-        const ticket = await ticketJson.json();
-        if (ticket.qr_code) {
-          isTicketModalOpen.set(!$isTicketModalOpen);
-          ticketQRCode.set(ticket.qr_code);
+        const paymentInitiationData = await paymentInitiationJson.json();
+        console.log(paymentInitiationData);
+        if (paymentInitiationData.data.authorization_url) {
+          const paystackAuthorizationUrl =
+            paymentInitiationData.data.authorization_url;
+          window.location.href = paystackAuthorizationUrl;
         }
       } catch (error) {
         console.log(error);
@@ -62,20 +66,23 @@ const EventCard = ({
     }
   };
   return (
-    <div className="w-full h-full flex items-center justify-center py-8 md:px-0 px-4 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 pb-6 shadow-xl max-w-sm">
+    <div className="py-8 md:px-0 px-4">
+      <div className="bg-gray-800 pb-6 shadow-xl max-w-sm">
         <a href={`/events/${id}`}>
-          <img
-            className="w-full"
-            src="/placeholder-image.png"
-            alt="costume-party"
-          />
+          <div className="w-full h-72">
+            <img
+              className="w-full h-full object-fill"
+              src={image ? image : '/placeholder-image.png'}
+              alt="costume-party"
+            />
+          </div>
+
           <div className="mt-4 pl-4">
-            <p className="w-2/4 text-base font-bold leading-normal text-gray-800 dark:text-gray-100">
+            <p className="w-2/4 text-base font-bold leading-normal text-gray-100">
               {name}
             </p>
           </div>
-          <div className="mt-4 flex items-center pl-4 text-gray-600 dark:text-gray-100">
+          <div className="mt-4 flex items-center pl-4 text-gray-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -130,12 +137,12 @@ const EventCard = ({
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+            <p className="text-sm leading-none text-gray-100 ml-2">
               {eventDate.toDateString()}
             </p>
             <span>, {eventTime}</span>
           </div>
-          <div className="mt-4 pl-4 flex items-center text-gray-600 dark:text-gray-100">
+          <div className="mt-4 pl-4 flex items-center text-gray-100">
             <svg
               fill="#ccc"
               xmlns="http://www.w3.org/2000/svg"
@@ -150,14 +157,14 @@ const EventCard = ({
                 strokeLinejoin="round"
               ></g>
               <g id="SVGRepo_iconCarrier">
-                {" "}
+                {' '}
                 <g>
-                  {" "}
-                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{" "}
-                </g>{" "}
+                  {' '}
+                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{' '}
+                </g>{' '}
               </g>
             </svg>
-            <p className="text-sm leading-none text-gray-700 dark:text-gray-100 ml-2">
+            <p className="text-sm leading-none text-gray-100 ml-2">
               {location}
             </p>
           </div>
@@ -168,7 +175,7 @@ const EventCard = ({
               </p>
             </div>
             <div className="py-2 px-5 flex justify-center items-center bg-gray-800">
-              <p className="text-sm font-bold leading-none text-white dark:text-gray-100">
+              <p className="text-sm font-bold leading-none text-gray-100">
                 GHC {price}
               </p>
             </div>
@@ -209,8 +216,8 @@ const EventCard = ({
                   fill="white"
                 />
               </svg>
-              <p className="text-xs leading-3 text-white dark:text-gray-100 ml-1">
-                {isBooking ? "Processing..." : "Book a Seat"}
+              <p className="text-xs leading-3 text-gray-100 ml-1">
+                {isBooking ? 'Processing...' : 'Book a Seat'}
               </p>
             </button>
           </div>

@@ -10,16 +10,20 @@ if (!Astro.cookies.get('token')) {
   return Astro.redirect('/login');
 }
 
-type Event = {
+type Teller = {
   _id: string;
-  title: string;
-  price: number;
+  user: {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  };
 };
 
 let errors = '';
 
-const events: Event[] = await fetch(
-  `${import.meta.env.PUBLIC_API_URL}/events/auth/creator`,
+const tellers: Teller[] = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/users/tellers/`,
   {
     headers: {
       'Content-Type': 'application/json',
@@ -39,15 +43,15 @@ const events: Event[] = await fetch(
           tabindex="0"
           class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 dark:text-white"
         >
-          Events
+          Tellers
         </p>
         <div class="flex items-center mt-4 sm:mt-0">
           <a
-            href="/dashboard/events/create"
+            href="/dashboard/tellers/create"
             class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 inline-flex md:ml-3 whitespace-nowrap items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded"
           >
             <p class="text-xs sm:text-sm font-medium leading-none text-white">
-              New Event
+              Add Teller
             </p>
           </a>
         </div>
@@ -55,14 +59,16 @@ const events: Event[] = await fetch(
     </div>
     <div class="">
       <div class="w-full overflow-x-auto">
-        {errors && <FetchError client:load title="events" />}
+        {errors && <FetchError client:load title="tellers" />}
         {
-          !errors && events.length === 0 && (
-            <h1 class="text-center text-2xl mb-3 text-white">No event found</h1>
+          !errors && tellers.length === 0 && (
+            <h1 class="text-center text-2xl mb-3 text-white">
+              No teller found
+            </h1>
           )
         }
         {
-          !errors && events.length > 0 && (
+          !errors && tellers.length > 0 && (
             <table class="w-full whitespace-nowrap">
               <thead>
                 <tr class="h-20 w-full text-sm leading-none text-gray-600 dark:text-gray-200">
@@ -72,23 +78,29 @@ const events: Event[] = await fetch(
                   >
                     #
                   </th>
+                  {/* <th
+                    tabindex="0"
+                    class="focus:outline-none font-normal text-left pl-10"
+                  >
+                    Teller #
+                  </th> */}
                   <th
                     tabindex="0"
                     class="focus:outline-none font-normal text-left pl-10"
                   >
-                    Event #
+                    First Name
                   </th>
                   <th
                     tabindex="0"
                     class="focus:outline-none font-normal text-left pl-10"
                   >
-                    Name
+                    Surname
                   </th>
                   <th
                     tabindex="0"
                     class="focus:outline-none font-normal text-left pl-10"
                   >
-                    Amount
+                    Email
                   </th>
                   <th
                     tabindex="0"
@@ -99,33 +111,33 @@ const events: Event[] = await fetch(
                 </tr>
               </thead>
               <tbody class="w-full">
-                {events.map((event, idx) => (
+                {tellers.map((teller, idx) => (
                   <tr class="h-20 text-sm leading-none text-gray-700 dark:text-white border-b border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900">
                     <td tabindex="0" class="focus:outline-none pl-4">
                       {idx + 1}
                     </td>
                     <td tabindex="0" class="focus:outline-none pl-10">
-                      {event._id}
+                      {teller.user.first_name}
                     </td>
                     <td class="pl-10">
                       <div class="flex items-center">
                         <p tabindex="0" class="focus:outline-none">
-                          {event.title}
+                          {teller.user.last_name}
                         </p>
                       </div>
                     </td>
                     <td tabindex="0" class="focus:outline-none pl-10">
-                      GHC {event.price}
+                      {teller.user.email}
                     </td>
                     <td class="pl-10">
                       <div class="flex items-center">
-                        <a
+                        {/* <a
                           href={`/dashboard/events/${event._id}/edit`}
                           class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 focus:outline-none bg-gray-100 dark:bg-gray-600 mr-5 hover:bg-gray-200 dark:hover:bg-gray-900 py-2.5 px-5 rounded text-sm leading-3 text-gray-600 dark:text-gray-200"
                         >
                           Edit
-                        </a>
-                        <DeleteButton url=`${import.meta.env.PUBLIC_API_URL}/events/${event._id}` client:load />
+                        </a> */}
+                        <DeleteButton url=`${import.meta.env.PUBLIC_API_URL}/users/tellers/${teller.user._id}` client:load />
                       </div>
                     </td>
                   </tr>

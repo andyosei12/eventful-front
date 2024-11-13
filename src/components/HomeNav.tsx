@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useStore } from "@nanostores/react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useCookies } from "react-cookie";
-import { isTicketModalOpen } from "../modalStore";
-import TicketModal from "./TicketModal";
+import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { Dialog } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useCookies } from 'react-cookie';
+import { isTicketModalOpen } from '../store';
+import TicketModal from './modals/TicketModal';
 
 const navigation = [
-  { name: "Features", href: "#" },
-  { name: "Pricing", href: "#" },
-  { name: "Support", href: "#" },
-  { name: "Explore events", href: "/events" },
+  { name: 'Features', href: '#' },
+  { name: 'Pricing', href: '#' },
+  { name: 'Support', href: '#' },
+  { name: 'Explore events', href: '/events' },
 ];
 
 const HomeNav = () => {
@@ -22,9 +22,9 @@ const HomeNav = () => {
   const user = cookie?.user;
 
   const logoutHandler = () => {
-    removeCookie("token");
+    removeCookie('token');
 
-    removeCookie("user");
+    removeCookie('user');
   };
 
   return (
@@ -39,7 +39,7 @@ const HomeNav = () => {
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <h1 className="bg-gradient-to-r from-blue-600 to-green-500 inline-block text-transparent bg-clip-text text-2xl font-bold">
-                Eventful
+                Efiada.
               </h1>
             </a>
           </div>
@@ -83,15 +83,15 @@ const HomeNav = () => {
               </a>
             )}
 
-            {(user?.role === "creator" || !token) && (
+            {!token && (
               <a
-                href="/dashboard/events/create"
+                href="/register"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
               >
-                Create Event
+                Register
               </a>
             )}
-            {user?.role === "regular" && (
+            {token && (
               <a
                 href="/dashboard"
                 className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
@@ -153,15 +153,15 @@ const HomeNav = () => {
                       Log in <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
-                  {(user?.role === "creator" || !token) && (
+                  {!token && (
                     <a
-                      href="/dashboard/events/create"
+                      href="/register"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"
                     >
-                      Create Event
+                      Register
                     </a>
                   )}
-                  {user?.role === "regular" && (
+                  {token && (
                     <a
                       href="/dashboard"
                       className="text-sm font-bold bg-primary-color leading-6 text-white rounded-md p-3 shadow-sm"

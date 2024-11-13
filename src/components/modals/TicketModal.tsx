@@ -1,6 +1,6 @@
-import { useStore } from "@nanostores/react";
-import { isTicketModalOpen } from "../modalStore";
-import { ticketQRCode } from "../modalStore";
+import { useStore } from '@nanostores/react';
+import { isTicketModalOpen } from '../../store';
+import { ticketQRCode } from '../../store';
 
 const TicketModal = () => {
   const $ticketQRCode = useStore(ticketQRCode);
@@ -9,7 +9,10 @@ const TicketModal = () => {
     isTicketModalOpen.set(false);
   };
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 overflow-y-hidden">
+    <div
+      className="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 overflow-y-hidden"
+      onClick={closeModalHandler}
+    >
       <div className="flex items-center justify-center py-20 px-4">
         <div className="relative w-96 rounded shadow-lg pt-4 pb-6 px-6 dark:bg-gray-800 bg-white">
           <div className="flex flex-col items-center">

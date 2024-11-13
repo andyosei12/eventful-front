@@ -1,8 +1,12 @@
 ---
 export const prerender = false;
 import DashbordLayout from '../../../layouts/DashbordLayout.astro';
+import SubmitBtn from '../../../components/SubmitBtn';
 
-if (!Astro.cookies.get('token')) {
+// get user data
+const userJson = Astro.cookies.get('user')?.value as string;
+const user = userJson && JSON.parse(userJson);
+if (user?.role !== 'creator') {
   return Astro.redirect('/creator-registration');
 }
 
@@ -11,33 +15,36 @@ const token = Astro.cookies.get('token')?.value;
 const errors = { message: '' };
 
 if (Astro.request.method === 'POST') {
+  console.log('here');
   try {
     errors.message = '';
 
     const data = await Astro.request.formData();
-    const title = data.get('name');
-    const description = data.get('about');
-    const date = data.get('date');
-    const time = data.get('time');
-    const price = data.get('price');
-    const location = data.get('location');
-    const days_before = data.get('notification');
+    const title = data.get('name') as string;
+    const description = data.get('about') as string;
+    const date = data.get('date') as string;
+    const time = data.get('time') as string;
+    const price = data.get('price') as string;
+    const location = data.get('location') as string;
+    const days_before = data.get('notification') as string;
+    const image = data.get('file-upload') as File;
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('date', date);
+    formData.append('time', time);
+    formData.append('price', price);
+    formData.append('location', location);
+    formData.append('days_before', days_before);
+    formData.append('image', image);
 
     const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/events`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        title,
-        description,
-        date,
-        price,
-        location,
-        days_before,
-        time,
-      }),
+      body: formData,
     });
     const responseToJson = await response.json();
 
@@ -59,10 +66,12 @@ if (Astro.request.method === 'POST') {
 ---
 
 <DashbordLayout>
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
+        <h2
+          class="text-base font-semibold leading-7 text-gray-900 event-create"
+        >
           Create an event
         </h2>
 
@@ -187,6 +196,34 @@ if (Astro.request.method === 'POST') {
               />
             </div>
           </div>
+
+          <!-- Event photo -->
+          <div class="col-span-full">
+            <label
+              for="event-photo"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Choose Event photo</label
+            >
+            <div
+              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+            >
+              <div class="text-center">
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label
+                    for="file-upload"
+                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                  >
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900 mt-10">
@@ -244,11 +281,16 @@ if (Astro.request.method === 'POST') {
     </div>
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button
-        type="submit"
-        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >Save</button
-      >
+      <SubmitBtn client:load />
     </div>
   </form>
 </DashbordLayout>
+
+<script>
+  // change save button and prevent multiple clicks
+  const saveButton = document.getElementById('save') as HTMLButtonElement;
+  saveButton?.addEventListener('click', () => {
+    saveButton.innerHTML = 'Processing...';
+    saveButton.disabled = true;
+  });
+</script>
