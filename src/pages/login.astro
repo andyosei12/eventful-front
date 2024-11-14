@@ -2,7 +2,11 @@
 export const prerender = false;
 import HomeLayout from "../layouts/HomeLayout.astro";
 
+const event = Astro.url.searchParams.get("event");
+
 const errors = { message: "" };
+
+const registerUrl = event ? `/register/?event=${event}` : "/register";
 
 // check to see if user is logged in
 if (Astro.cookies.get("token")) {
@@ -37,6 +41,9 @@ if (Astro.request.method === "POST") {
         maxAge: 60 * 60,
         path: "/",
       });
+      if (event) {
+        return Astro.redirect(`/events/${event}`);
+      }
       return Astro.redirect("/");
     } else {
       errors.message = responseToJson.message;
@@ -127,7 +134,7 @@ if (Astro.request.method === "POST") {
       <p class="mt-10 text-center text-sm text-gray-500">
         Don't have an account?
         <a
-          href="/register"
+          href={`${registerUrl}`}
           class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >Sign up for free</a
         >
