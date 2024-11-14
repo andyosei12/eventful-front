@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useStore } from '@nanostores/react';
-import { isTicketModalOpen } from '../store';
-import { ticketQRCode } from '../store';
-import { formatTime } from '../utils';
+import { useState } from "react";
+import { useStore } from "@nanostores/react";
+import { isTicketModalOpen } from "../store";
+import { ticketQRCode } from "../store";
+import { formatTime } from "../utils";
 
 type EventCardProps = {
   id: string;
@@ -34,16 +34,16 @@ const EventCard = ({
 
   const onPurchaseHandler = async () => {
     if (!token) {
-      window.location.href = '/login';
+      window.location.href = `/login?event=${id}`;
     } else {
       setIsBooking(true);
       try {
         const paymentInitiationJson = await fetch(
           `${import.meta.env.PUBLIC_API_URL}/payment/initiate-transaction`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
@@ -72,7 +72,7 @@ const EventCard = ({
           <div className="w-full h-72">
             <img
               className="w-full h-full object-fill"
-              src={image ? image : '/placeholder-image.png'}
+              src={image ? image : "/placeholder-image.png"}
               alt="costume-party"
             />
           </div>
@@ -157,11 +157,11 @@ const EventCard = ({
                 strokeLinejoin="round"
               ></g>
               <g id="SVGRepo_iconCarrier">
-                {' '}
+                {" "}
                 <g>
-                  {' '}
-                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{' '}
-                </g>{' '}
+                  {" "}
+                  <path d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738 c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388 C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191 c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z"></path>{" "}
+                </g>{" "}
               </g>
             </svg>
             <p className="text-sm leading-none text-gray-100 ml-2">
@@ -217,7 +217,7 @@ const EventCard = ({
                 />
               </svg>
               <p className="text-xs leading-3 text-gray-100 ml-1">
-                {isBooking ? 'Processing...' : 'Book a Seat'}
+                {isBooking ? "Processing..." : "Book a Seat"}
               </p>
             </button>
           </div>

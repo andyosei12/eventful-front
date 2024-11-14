@@ -2,6 +2,10 @@
 export const prerender = false;
 import HomeLayout from "../layouts/HomeLayout.astro";
 
+const event = Astro.url.searchParams.get("event");
+
+const loginUrl = event ? `/login/?event=${event}` : "/login";
+
 const errors = { message: "" };
 
 // check to see if user is logged in
@@ -31,6 +35,9 @@ if (Astro.request.method === "POST") {
     );
     const responseToJson = await response.json();
     if (!responseToJson.error) {
+      if (event) {
+        return Astro.redirect(`/login/?event=${event}`);
+      }
       return Astro.redirect("/login");
     } else {
       errors.message = responseToJson.message;
@@ -174,7 +181,7 @@ if (Astro.request.method === "POST") {
         <p class="mt-10 text-center text-sm text-gray-500">
           Already have an account?
           <a
-            href="/login"
+            href={`${loginUrl}`}
             class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >Login</a
           >
@@ -184,35 +191,35 @@ if (Astro.request.method === "POST") {
   </div>
 
   <script>
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement;
     const passwordErrorSpan = document.getElementById(
-      'password-error'
+      "password-error"
     ) as HTMLElement;
     const confirmPasswordErrorSpan = document.getElementById(
-      'confirmPassword-error'
+      "confirmPassword-error"
     ) as HTMLElement;
 
-    let userPassword = '';
+    let userPassword = "";
 
-    password?.addEventListener('input', (e) => {
+    password?.addEventListener("input", (e) => {
       const passwordInput = (e.target as HTMLInputElement).value;
       if (passwordInput.length < 8) {
         passwordErrorSpan.innerText =
-          'Password length must be 8 or more characters long';
+          "Password length must be 8 or more characters long";
       } else {
-        passwordErrorSpan.innerText = '';
+        passwordErrorSpan.innerText = "";
       }
       userPassword = passwordInput;
     });
 
-    confirmPassword?.addEventListener('input', (e) => {
+    confirmPassword?.addEventListener("input", (e) => {
       const passwordInput = (e.target as HTMLInputElement).value;
       if (passwordInput !== userPassword) {
-        confirmPasswordErrorSpan.innerText = 'Passwords do not match';
+        confirmPasswordErrorSpan.innerText = "Passwords do not match";
       } else {
-        confirmPasswordErrorSpan.innerText = '';
+        confirmPasswordErrorSpan.innerText = "";
         // remove disable button class
         submitBtn.disabled = false;
       }
