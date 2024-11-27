@@ -135,7 +135,7 @@ const DashboardLayout = ({
                 <div>
                   <div className="flex items-center justify-between px-8">
                     <div className="h-16 w-full flex items-center">
-                      <a href="/">Eventful</a>
+                      <a href="/">Efiada</a>
                     </div>
                     <div
                       id="closeSideBar"
